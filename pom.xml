@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tallerwebi</groupId>
-    <artifactId>tallerwebi-base</artifactId>
+    <artifactId>blackjack</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>spring web mvc</name>
@@ -107,11 +107,37 @@
             <version>${playwright.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mercadopago</groupId>
+            <artifactId>sdk-java</artifactId>
+            <version>2.1.24</version>
+        </dependency>-->
+
     </dependencies>
 
     <build>
 
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -149,15 +175,14 @@
                 <version>9.4.45.v20220203</version>
                 <configuration>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
-                    <httpConnector>
-                        <port>8080</port>
-                    </httpConnector>
                     <webApp>
-                        <contextPath>/spring</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                 </configuration>
             </plugin>
 
         </plugins>
+
     </build>
+
 </project>

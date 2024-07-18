@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Blackjack</title>
+
 </head>
+
 <body>
+
 <nav>
     <a href="#">Blackjack</a>
 </nav>
@@ -13,16 +18,14 @@
 
     <div>
         <div>
-            <form th:action="@{/loguear}" method="POST" th:object="${jugador}">
-                <h3>Iniciar Sesion</h3>
+            <form th:action="@{/registrar}" method="POST" th:object="${jugador}">
+                <h3>Nuevo Usuario</h3>
 
                 <label for="email">Email:</label>
                 <input th:field="*{email}" type="text" id="email"/>
 
                 <label for="password">Contraseña:</label>
                 <input th:field="*{contrasenia}" type="password" id="password" required/>
-
-                <p th:if="${error}">Email o contraseña incorrecta</p>
 
                 <button type="submit">Registrarme</button>
             </form>

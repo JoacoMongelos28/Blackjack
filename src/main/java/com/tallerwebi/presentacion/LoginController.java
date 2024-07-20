@@ -1,7 +1,8 @@
-package com.tallerwebi.dominio.Login;
+package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Excepciones.UsuarioInvalidoException;
 import com.tallerwebi.dominio.Jugador.Jugador;
+import com.tallerwebi.dominio.Login.ILoginServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    private ILoginServicio loginServicio;
+    private final ILoginServicio loginServicio;
 
     @Autowired
     public LoginController(ILoginServicio loginServicio) {
@@ -46,7 +47,8 @@ public class LoginController {
                 return new ModelAndView("login", model);
             }
 
-            session.setAttribute("idJugador", jugadorObtenido);
+            session.setAttribute("idJugador", jugadorObtenido.getIdJugador());
+            session.setAttribute("estaLogueado", true);
             return new ModelAndView("redirect:/home");
 
         } catch (UsuarioInvalidoException e) {

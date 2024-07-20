@@ -11,7 +11,7 @@
 <body>
 
 <nav>
-    <a href="#">Blackjack</a>
+    <a th:href="home">Blackjack</a>
 </nav>
 
 <main>
@@ -21,11 +21,23 @@
             <form th:action="@{/registrar}" method="POST" th:object="${jugador}">
                 <h3>Nuevo Usuario</h3>
 
-                <label for="email">Email:</label>
-                <input th:field="*{email}" type="text" id="email"/>
+                <label for="nombre">Nombre:</label>
+                <input th:field="*{nombre}" type="text" id="nombre" required/>
+
+                <label for="apellido">Apellido:</label>
+                <input th:field="*{apellido}" type="text" id="apellido" required/>
+
+                <label for="usuario">Usuario:</label>
+                <input th:field="*{usuario}" type="text" id="usuario" required/>
 
                 <label for="password">Contraseña:</label>
                 <input th:field="*{contrasenia}" type="password" id="password" required/>
+
+                <label for="email">Email:</label>
+                <input th:field="*{email}" type="text" id="email" required/>
+
+                <label for="dni">DNI:</label>
+                <input th:field="*{dni}" type="number" id="dni" required/>
 
                 <button type="submit">Registrarme</button>
             </form>

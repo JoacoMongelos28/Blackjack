@@ -1,92 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Casino Online - Blackjack</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #004d00;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
         .mesa {
-            background-color: #006600;
-            width: 80%;
-            height: 60%;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
         }
         .crupier, .jugador {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
         }
         .cartas {
             display: flex;
-            justify-content: center;
         }
         .carta {
-            width: 80px;
-            height: 120px;
-            border-radius: 5px;
-            margin: 0 10px;
-            background-color: #fff;
-            color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            width: 100px;
+            height: 150px;
+            margin: 10px;
+        }
+        .carta img {
+            width: 100%;
+            height: 100%;
+        }
+        .carta-oculta {
+            background-color: gray;
+            border: 2px solid black;
+            width: 100px;
+            height: 150px;
         }
         .botones {
-            display: flex;
-            justify-content: center;
+            margin-top: 20px;
         }
         .boton {
-            background-color: #ffcc00;
-            border: none;
-            border-radius: 5px;
-            color: #000;
             padding: 10px 20px;
-            margin: 0 10px;
-            cursor: pointer;
             font-size: 16px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 0 5px;
         }
-        .boton:hover {
-            background-color: #ffeb99;
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            z-index: 1000;
+        }
+        .mesa {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .crupier, .jugador {
+            margin: 0 20px;
+        }
+        .cartas {
+            display: flex;
+        }
+        .carta {
+            margin: 5px;
+        }
+        .botones {
+            margin-top: 20px;
+        }
+        .boton {
+            margin: 5px;
         }
     </style>
 
 </head>
 <body>
-<h1>Estás en la mesa 1</h1>
 
 <main>
+
+    <p>Saldo disponible: <span th:text="${saldo}"></span></p>
+
     <div class="mesa">
         <div class="crupier">
             <div class="cartas" id="cartas-crupier"></div>
+            <div id="valor-crupier"></div>
         </div>
         <div class="jugador">
             <div class="cartas" id="cartas-jugador"></div>
+            <div id="valor-jugador"></div>
         </div>
         <div class="botones">
             <button class="boton" id="boton-repartir">Repartir</button>
+            <button class="boton" id="boton-pedir-carta">Pedir carta</button>
+            <button class="boton" id="boton-plantarse">Plantarse</button>
         </div>
     </div>
 </main>
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 <script>
+    let cartas = [];
+    let sumaJugador = 0;
+    let sumaCrupier = 0;
+    let cartaOcultaCrupier = null;
+
     async function obtenerCartas() {
         try {
             const response = await fetch('/blackjack/cartas');
@@ -105,26 +128,48 @@
         return cartas.splice(indiceAleatorio, 1)[0];
     }
 
-    document.getElementById('boton-repartir').addEventListener('click', async () => {
+    function obtenerValorCarta(numero) {
+        if (['J', 'Q', 'K'].includes(numero)) {
+            return 10;
+        } else if (numero === 'A') {
+            return 11;
+        } else {
+            return parseInt(numero, 10);
+        }
+    }
+
+    function repartirCartas() {
         const cartasCrupier = document.getElementById('cartas-crupier');
         const cartasJugador = document.getElementById('cartas-jugador');
-
-        const cartas = await obtenerCartas();
+        const valorCrupier = document.getElementById('valor-crupier');
+        const valorJugador = document.getElementById('valor-jugador');
 
         cartasCrupier.innerHTML = '';
         cartasJugador.innerHTML = '';
+        sumaJugador = 0;
+        sumaCrupier = 0;
+        cartaOcultaCrupier = null;
 
         for (let i = 0; i < 4; i++) {
             const carta = obtenerCartaAleatoria(cartas);
             const cartaDiv = document.createElement('div');
             cartaDiv.className = 'carta';
 
-            const img = document.createElement('img');
-            img.src = `css/imagenes/${carta.numero} de ${obtenerNombrePalo(carta.palo)}.png`;
-            img.alt = `${carta.numero} de ${obtenerNombrePalo(carta.palo)}`;
-            img.style.width = '100%';
-            img.style.height = '100%';
-            cartaDiv.appendChild(img);
+            if (i === 1) {
+                cartaDiv.classList.add('carta-oculta');
+                cartaOcultaCrupier = carta;
+            } else {
+                const img = document.createElement('img');
+                img.src = `css/imagenes/${carta.numero} de ${obtenerNombrePalo(carta.palo)}.png`;
+                img.alt = `${carta.numero} de ${obtenerNombrePalo(carta.palo)}`;
+                cartaDiv.appendChild(img);
+
+                if (i < 2) {
+                    sumaCrupier += obtenerValorCarta(carta.numero);
+                } else {
+                    sumaJugador += obtenerValorCarta(carta.numero);
+                }
+            }
 
             if (i < 2) {
                 cartasCrupier.appendChild(cartaDiv);
@@ -132,7 +177,126 @@
                 cartasJugador.appendChild(cartaDiv);
             }
         }
-    });
+
+        valorCrupier.innerText = `Valor del crupier: ${sumaCrupier}`;
+        valorJugador.innerText = `Valor del jugador: ${sumaJugador}`;
+
+        // Oculta el botón "Repartir" y muestra los botones "Pedir Carta" y "Plantarse"
+        document.getElementById('boton-repartir').style.display = 'none';
+        document.getElementById('boton-pedir-carta').style.display = 'inline-block';
+        document.getElementById('boton-plantarse').style.display = 'inline-block';
+    }
+
+    function agregarCartaAJugador(carta) {
+        const cartasJugador = document.getElementById('cartas-jugador');
+        const cartaDiv = document.createElement('div');
+        cartaDiv.className = 'carta';
+
+        const img = document.createElement('img');
+        img.src = `css/imagenes/${carta.numero} de ${obtenerNombrePalo(carta.palo)}.png`;
+        img.alt = `${carta.numero} de ${obtenerNombrePalo(carta.palo)}`;
+        cartaDiv.appendChild(img);
+
+        cartasJugador.appendChild(cartaDiv);
+    }
+
+    function actualizarSumaJugador(carta) {
+        const valorJugador = document.getElementById('valor-jugador');
+        sumaJugador += obtenerValorCarta(carta.numero);
+        valorJugador.innerText = `Valor del jugador: ${sumaJugador}`;
+
+        if (sumaJugador > 21) {
+            // Si el jugador se pasa de 21
+            document.getElementById('boton-pedir-carta').style.display = 'none';
+            document.getElementById('boton-plantarse').style.display = 'none';
+            crupierJuega(); // El crupier empieza a jugar automáticamente
+        }
+    }
+
+    function mostrarCartaOcultaCrupier() {
+        const cartaOcultaDiv = document.querySelector('.carta-oculta');
+        if (cartaOcultaDiv && cartaOcultaCrupier) {
+            cartaOcultaDiv.classList.remove('carta-oculta');
+
+            const img = document.createElement('img');
+            img.src = `css/imagenes/${cartaOcultaCrupier.numero} de ${obtenerNombrePalo(cartaOcultaCrupier.palo)}.png`;
+            img.alt = `${cartaOcultaCrupier.numero} de ${obtenerNombrePalo(cartaOcultaCrupier.palo)}`;
+            cartaOcultaDiv.appendChild(img);
+
+            sumaCrupier += obtenerValorCarta(cartaOcultaCrupier.numero);
+            document.getElementById('valor-crupier').innerText = `Valor del crupier: ${sumaCrupier}`;
+        }
+    }
+
+    function ocultarBotones() {
+        document.getElementById('boton-repartir').style.display = 'none';
+        document.getElementById('boton-pedir-carta').style.display = 'none';
+        document.getElementById('boton-plantarse').style.display = 'none';
+    }
+
+    function mostrarBotonRepartir() {
+        document.getElementById('boton-repartir').style.display = 'inline-block';
+        document.getElementById('boton-pedir-carta').style.display = 'none';
+        document.getElementById('boton-plantarse').style.display = 'none';
+    }
+
+    function mostrarPopup(mensaje) {
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.innerText = mensaje;
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.remove();
+        }, 1500); // El popup se cierra después de 2 segundos
+    }
+
+    function verificarResultado() {
+        // Comprobar si el jugador se pasa de 21
+        if (sumaJugador > 21) {
+            // No mostrar nada
+            return;
+        }
+
+        // Mostrar el resultado basado en la mano del crupier
+        if (sumaCrupier > 21 || sumaJugador > sumaCrupier) {
+            mostrarPopup('¡Ganaste!');
+        } else if (sumaJugador === sumaCrupier) {
+            mostrarPopup('Empate');
+        }
+    }
+
+    function crupierJuega() {
+        ocultarBotones();
+        mostrarCartaOcultaCrupier();
+        const intervalo = setInterval(() => {
+            if (sumaCrupier < 17) {
+                const carta = obtenerCartaAleatoria(cartas);
+                const cartaDiv = document.createElement('div');
+                cartaDiv.className = 'carta';
+
+                const img = document.createElement('img');
+                img.src = `css/imagenes/${carta.numero} de ${obtenerNombrePalo(carta.palo)}.png`;
+                img.alt = `${carta.numero} de ${obtenerNombrePalo(carta.palo)}`;
+                cartaDiv.appendChild(img);
+
+                document.getElementById('cartas-crupier').appendChild(cartaDiv);
+
+                sumaCrupier += obtenerValorCarta(carta.numero);
+                document.getElementById('valor-crupier').innerText = `Valor del crupier: ${sumaCrupier}`;
+
+                if (sumaCrupier >= 21) {
+                    clearInterval(intervalo);
+                    mostrarBotonRepartir();
+                    verificarResultado(); // Verifica el resultado después de que el crupier termine de jugar
+                }
+            } else {
+                clearInterval(intervalo);
+                mostrarBotonRepartir();
+                verificarResultado(); // Verifica el resultado después de que el crupier termine de jugar
+            }
+        }, 1000); // Intervalo de 1 segundo para sacar cartas
+    }
 
     function obtenerNombrePalo(palo) {
         switch (palo) {
@@ -148,6 +312,28 @@
                 return 'desconocido';
         }
     }
+
+    // Inicializar los botones al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        mostrarBotonRepartir();
+    });
+
+    // Configuración de eventos
+    document.getElementById('boton-repartir').addEventListener('click', async () => {
+        cartas = await obtenerCartas();
+        repartirCartas();
+    });
+
+    document.getElementById('boton-pedir-carta').addEventListener('click', () => {
+        const carta = obtenerCartaAleatoria(cartas);
+        agregarCartaAJugador(carta);
+        actualizarSumaJugador(carta);
+    });
+
+    document.getElementById('boton-plantarse').addEventListener('click', () => {
+        mostrarCartaOcultaCrupier();
+        crupierJuega();
+    });
 </script>
 
 </html>

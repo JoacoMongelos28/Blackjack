@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    private ILoginServicio loginServicio;
+    private final ILoginServicio loginServicio;
 
     @Autowired
     public LoginController(ILoginServicio loginServicio) {
@@ -47,7 +47,7 @@ public class LoginController {
                 return new ModelAndView("login", model);
             }
 
-            session.setAttribute("idJugador", jugadorObtenido);
+            session.setAttribute("idJugador", jugadorObtenido.getIdJugador());
             session.setAttribute("estaLogueado", true);
             return new ModelAndView("redirect:/home");
 

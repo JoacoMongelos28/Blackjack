@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Casino Online</title>
+</head>
+<body>
+
+<main>
+    <h1>Depositar</h1>
+
+    <section th:if="${estaLogueado}">
+        <form th:action="@{/depositar}" method="POST">
+            <label for="saldo">Monto a depositar: </label>
+            <input type="number" id="saldo" name="saldo" required>
+            <button type="submit">Depositar</button>
+        </form>
+    </section>
+</main>
+
+</body>
+</html>

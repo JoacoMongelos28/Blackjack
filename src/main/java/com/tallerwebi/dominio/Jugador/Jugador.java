@@ -27,17 +27,21 @@ public class Jugador {
     @Column(name = "dni")
     private String dni;
 
+    @Column(name = "saldo")
+    private Double saldo;
+
     public Jugador() {
 
     }
 
-    public Jugador(String nombre, String apellido, String usuario, String contrasenia, String email, String dni) {
+    public Jugador(String nombre, String apellido, String usuario, String contrasenia, String email, String dni, Double saldo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
         this.email = email;
         this.dni = dni;
+        this.saldo = saldo;
     }
 
     public Integer getIdJugador() {
@@ -94,5 +98,13 @@ public class Jugador {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 }

@@ -5,11 +5,45 @@
     <title>Casino Online - Blackjack</title>
 
     <style>
-        .mesa {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Estilos para el popup */
+        .popup {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
         }
+        .carta {
+            display: inline-block;
+            margin: 5px;
+        }
+        .carta img {
+            width: 80px;
+            height: auto;
+        }
+        .boton {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .boton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+         .mesa {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
         .crupier, .jugador {
             display: flex;
             flex-direction: column;
@@ -75,15 +109,30 @@
         .boton {
             margin: 5px;
         }
+        .boton {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .boton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 
 </head>
 <body>
 
 <main>
-
-    <p>Saldo disponible: <span th:text="${saldo}"></span></p>
-
+    <p>Saldo disponible: <span id="saldo" th:text="${saldo}"></span></p>
+    <label for="apuesta">Apostar:</label>
+    <input type="number" id="apuesta" placeholder="Ingrese su apuesta">
+    <p>Total apostado: <span id="total-apostado">0</span></p>
     <div class="mesa">
         <div class="crupier">
             <div class="cartas" id="cartas-crupier"></div>
@@ -97,6 +146,10 @@
             <button class="boton" id="boton-repartir">Repartir</button>
             <button class="boton" id="boton-pedir-carta">Pedir carta</button>
             <button class="boton" id="boton-plantarse">Plantarse</button>
+            <button class="boton" id="boton-doblar">Doblar</button>
+            <button class="boton" id="boton-deshacer">Deshacer</button>
+            <button class="boton" id="boton-eliminar-apuestas">Eliminar Apuestas</button>
+            <button class="boton" id="boton-reapostar">Reapostar <span id="saldo-reapostar"></span></button>
         </div>
     </div>
 </main>
@@ -109,6 +162,12 @@
     let sumaJugador = 0;
     let sumaCrupier = 0;
     let cartaOcultaCrupier = null;
+    let saldo = parseFloat(document.getElementById('saldo').innerText);
+    let apuesta = 0;
+    let apuestaAnterior = 0; // Variable para almacenar la apuesta anterior
+    let historialApuestas = []; // Array para almacenar los valores de apuesta
+    let apuestaInicial = 0; // Variable para almacenar la apuesta inicial
+    let huboBlackjack;
 
     async function obtenerCartas() {
         try {
@@ -143,12 +202,16 @@
         const cartasJugador = document.getElementById('cartas-jugador');
         const valorCrupier = document.getElementById('valor-crupier');
         const valorJugador = document.getElementById('valor-jugador');
+        const apuestaInput = document.getElementById('apuesta');
 
         cartasCrupier.innerHTML = '';
         cartasJugador.innerHTML = '';
         sumaJugador = 0;
         sumaCrupier = 0;
         cartaOcultaCrupier = null;
+        const totalApostado = document.getElementById('total-apostado');
+
+        totalApostado.textContent = ` ${apuestaAnterior.toFixed(2).toString().replace('.00', '')}`;
 
         for (let i = 0; i < 4; i++) {
             const carta = obtenerCartaAleatoria(cartas);
@@ -181,10 +244,28 @@
         valorCrupier.innerText = `Valor del crupier: ${sumaCrupier}`;
         valorJugador.innerText = `Valor del jugador: ${sumaJugador}`;
 
+        huboBlackjack = false;
+        verificarBlackjack()
+
         // Oculta el botón "Repartir" y muestra los botones "Pedir Carta" y "Plantarse"
         document.getElementById('boton-repartir').style.display = 'none';
-        document.getElementById('boton-pedir-carta').style.display = 'inline-block';
-        document.getElementById('boton-plantarse').style.display = 'inline-block';
+        document.getElementById('boton-doblar').style.display = 'none';
+        document.getElementById('boton-deshacer').style.display = 'none';
+
+        if (!huboBlackjack) {
+            document.getElementById('boton-pedir-carta').style.display = 'inline-block';
+            document.getElementById('boton-plantarse').style.display = 'inline-block';
+        }
+
+        document.getElementById('boton-reapostar').style.display = 'none';
+        document.getElementById('boton-eliminar-apuestas').style.display = 'none'; // Ocultar el botón durante el juego
+
+        // Desactiva el campo de apuesta después de repartir
+        apuestaInput.disabled = true;
+        apuestaInput.placeholder = 'Apuesta realizada: ' + apuesta;
+
+        // Guardar la apuesta inicial
+        apuestaInicial = apuesta;
     }
 
     function agregarCartaAJugador(carta) {
@@ -232,12 +313,27 @@
         document.getElementById('boton-repartir').style.display = 'none';
         document.getElementById('boton-pedir-carta').style.display = 'none';
         document.getElementById('boton-plantarse').style.display = 'none';
+        document.getElementById('boton-eliminar-apuestas').style.display = 'none'; // Ocultar el botón durante el juego
     }
 
     function mostrarBotonRepartir() {
-        document.getElementById('boton-repartir').style.display = 'inline-block';
+        setTimeout(function() {
+            document.getElementById('boton-repartir').style.display = 'inline-block';
+            document.getElementById('boton-doblar').style.display = 'inline-block';
+            document.getElementById('boton-deshacer').style.display = 'inline-block';
+            document.getElementById('boton-eliminar-apuestas').style.display = 'inline-block'; // Mostrar el botón antes de jugar
+        }, 1000);
+
         document.getElementById('boton-pedir-carta').style.display = 'none';
         document.getElementById('boton-plantarse').style.display = 'none';
+        document.getElementById('apuesta').value = '';
+
+        mostrarBotonReapostar();
+
+        // Reactiva el campo de apuesta y restablece el placeholder
+        const apuestaInput = document.getElementById('apuesta');
+        apuestaInput.disabled = false;
+        apuestaInput.placeholder = 'Ingrese su apuesta';
     }
 
     function mostrarPopup(mensaje) {
@@ -248,21 +344,40 @@
 
         setTimeout(() => {
             popup.remove();
-        }, 1500); // El popup se cierra después de 2 segundos
+        }, 1000); // El popup se cierra después de 3 segundos
+    }
+
+    function verificarBlackjack() {
+        const cartasJugador = document.getElementById('cartas-jugador').children;
+        if (cartasJugador.length === 2) {
+            const carta1 = cartasJugador[0].querySelector('img').alt.split(' ')[0];
+            const carta2 = cartasJugador[1].querySelector('img').alt.split(' ')[0];
+
+            if ((carta1 === 'A' && ['10', 'J', 'Q', 'K'].includes(carta2)) ||
+                (['10', 'J', 'Q', 'K'].includes(carta1) && carta2 === 'A')) {
+                huboBlackjack = true;
+                crupierJuega();
+            }
+        }
     }
 
     function verificarResultado() {
-        // Comprobar si el jugador se pasa de 21
-        if (sumaJugador > 21) {
-            // No mostrar nada
-            return;
-        }
+        let mensaje = '';
 
-        // Mostrar el resultado basado en la mano del crupier
-        if (sumaCrupier > 21 || sumaJugador > sumaCrupier) {
-            mostrarPopup('¡Ganaste!');
+        if (sumaJugador > 21) {
+            actualizarSaldo();
+        } else if (sumaCrupier > 21 || sumaJugador > sumaCrupier) {
+            mensaje = 'Ganaste ' + apuesta * 2;
+            saldo += apuesta * 2; // Doble de la apuesta en caso de ganar
+            mostrarPopup(mensaje);
+            actualizarSaldo();
         } else if (sumaJugador === sumaCrupier) {
-            mostrarPopup('Empate');
+            mensaje = 'Ganaste ' + apuesta;
+            saldo += apuestaInicial; // Devolver la apuesta inicial en caso de empate
+            mostrarPopup(mensaje);
+            actualizarSaldo();
+        } else {
+            actualizarSaldo();
         }
     }
 
@@ -274,18 +389,25 @@
                 const carta = obtenerCartaAleatoria(cartas);
                 const cartaDiv = document.createElement('div');
                 cartaDiv.className = 'carta';
-
                 const img = document.createElement('img');
                 img.src = `css/imagenes/${carta.numero} de ${obtenerNombrePalo(carta.palo)}.png`;
                 img.alt = `${carta.numero} de ${obtenerNombrePalo(carta.palo)}`;
                 cartaDiv.appendChild(img);
-
                 document.getElementById('cartas-crupier').appendChild(cartaDiv);
 
                 sumaCrupier += obtenerValorCarta(carta.numero);
                 document.getElementById('valor-crupier').innerText = `Valor del crupier: ${sumaCrupier}`;
 
-                if (sumaCrupier >= 21) {
+                if (huboBlackjack) {
+                    const totalGanado =  apuesta * 2 + apuesta / 2;
+                    saldo += totalGanado;
+                    setTimeout(function() {
+                        mostrarPopup('¡Blackjack! Ganaste ' + totalGanado);
+                    }, 1000);
+                    actualizarSaldo()
+                    clearInterval(intervalo);
+                    mostrarBotonRepartir();
+                } else if (sumaCrupier >= 21) {
                     clearInterval(intervalo);
                     mostrarBotonRepartir();
                     verificarResultado(); // Verifica el resultado después de que el crupier termine de jugar
@@ -313,15 +435,45 @@
         }
     }
 
+    function actualizarSaldo() {
+        document.getElementById('saldo').innerText = saldo.toFixed(2); // Formatea el saldo a dos decimales
+
+        // Aquí actualizarías la base de datos con el nuevo saldo
+        fetch('/blackjack/actualizarSaldo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ saldo: saldo })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Error al actualizar el saldo en la base de datos');
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
     // Inicializar los botones al cargar la página
     document.addEventListener('DOMContentLoaded', () => {
+        saldo = parseFloat(document.getElementById('saldo').innerText);
         mostrarBotonRepartir();
     });
 
     // Configuración de eventos
     document.getElementById('boton-repartir').addEventListener('click', async () => {
+        apuesta = parseFloat(document.getElementById('apuesta').value);
+        if (isNaN(apuesta) || apuesta <= 0 || apuesta > saldo) {
+            mostrarPopup('Debes apostar primero o la apuesta es inválida.');
+            return;
+        }
+
+        apuestaAnterior = apuesta; // Guardar la apuesta actual antes de modificarla
+        saldo -= apuesta; // Restar la apuesta del saldo
+        historialApuestas = [apuesta]; // Reiniciar el historial de apuestas con la apuesta actual
         cartas = await obtenerCartas();
         repartirCartas();
+        actualizarSaldo(); // Actualizar el saldo después de restar la apuesta
     });
 
     document.getElementById('boton-pedir-carta').addEventListener('click', () => {
@@ -334,6 +486,84 @@
         mostrarCartaOcultaCrupier();
         crupierJuega();
     });
+
+    document.getElementById('boton-doblar').addEventListener('click', () => {
+        const apuestaInput = document.getElementById('apuesta');
+        let apuesta = parseFloat(apuestaInput.value);
+
+        if (isNaN(apuesta) || apuesta <= 0) {
+            alert('Por favor, ingrese una apuesta válida.');
+            return;
+        }
+
+        // Guardar la apuesta actual en el historial antes de modificarla
+        historialApuestas.push(apuesta);
+
+        // Duplicar la apuesta y actualizar el input
+        apuesta *= 2;
+        apuestaInput.value = apuesta.toFixed(2);
+    });
+
+    document.getElementById('boton-deshacer').addEventListener('click', () => {
+        if (historialApuestas.length > 0) {
+            // Obtener el último valor del historial
+            let ultimoValor = historialApuestas.pop();
+
+            // Actualizar el input con el último valor
+            document.getElementById('apuesta').value = ultimoValor.toFixed(2);
+        } else {
+            // Si no hay valores anteriores, poner el valor en 0
+            document.getElementById('apuesta').value = '';
+        }
+    });
+
+    document.getElementById('boton-eliminar-apuestas').addEventListener('click', () => {
+        // Limpiar el valor del input de apuesta
+        document.getElementById('apuesta').value = '';
+        // Reiniciar el historial de apuestas
+        historialApuestas = [];
+    });
+
+    function reapostar() {
+        // Validar si hay saldo disponible
+        if (saldo <= 0) {
+            mostrarPopup('No tienes saldo disponible para reapostar.');
+            return;
+        }
+
+        // Obtener la última apuesta realizada
+        apuesta = apuestaAnterior;
+
+        // Actualizar el input de apuesta
+        document.getElementById('apuesta').value = apuesta.toFixed(2);
+
+        // Reiniciar el historial de apuestas
+        historialApuestas = [];
+    }
+
+    function mostrarBotonReapostar() {
+        const botonReapostar = document.getElementById('boton-reapostar');
+        const saldoSpan = document.getElementById('saldo-reapostar');
+
+        if (historialApuestas.length > 0) {
+            setTimeout(function() {
+                botonReapostar.style.display = 'inline-block';
+            }, 1000);
+
+            saldoSpan.textContent = ` ${apuestaAnterior.toFixed(2).toString().replace('.00', '')}`;
+        } else {
+            botonReapostar.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        saldo = parseFloat(document.getElementById('saldo').innerText);
+        mostrarBotonRepartir();
+
+        // Agregar evento click al botón "Reapostar"
+        document.getElementById('boton-reapostar').addEventListener('click', reapostar);
+    });
+
 </script>
 
 </html>

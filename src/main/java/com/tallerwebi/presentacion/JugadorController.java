@@ -20,7 +20,7 @@ public class JugadorController {
         this.jugadorServicio = jugadorServicio;
     }
 
-    @RequestMapping(value = "/registrarme")
+    @RequestMapping(value = "/registrarse")
     public ModelAndView mostrarFormularioDeRegistro() {
         String nombreVista = "registrarse";
         ModelMap model = new ModelMap();

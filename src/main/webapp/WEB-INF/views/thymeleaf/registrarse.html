@@ -4,46 +4,135 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Blackjack</title>
+    <title>Casino</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #212121;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contenedor-nav {
+            background-color: #f8f8f8;
+            width: 100%;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .a-nav {
+            color: #000000;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .titulo-nuevo-usuario {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .boton-registrarme {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .boton-registrarme:hover {
+            background-color: #0056b3;
+        }
+
+        .boton-registrarme:active {
+            background-color: #00408d;
+        }
+
+        .contenedor-form-registro {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 380px;
+        }
+
+        .contenedor-principal-form {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+    </style>
 
 </head>
 
 <body>
 
-<nav>
-    <a th:href="home">Blackjack</a>
+<nav class="contenedor-nav">
+    <a class="a-nav" th:href="home">Casino Online</a>
 </nav>
 
 <main>
 
-    <div>
-        <div>
-            <form th:action="@{/registrar}" method="POST" th:object="${jugador}">
-                <h3>Nuevo Usuario</h3>
+    <section>
+        <article class="contenedor-principal-form">
+            <div class="contenedor-form-registro">
+                <form th:action="@{/registrar}" method="POST" th:object="${jugador}">
+                    <h3 class="titulo-nuevo-usuario">Nuevo Usuario</h3>
 
-                <label for="nombre">Nombre:</label>
-                <input th:field="*{nombre}" type="text" id="nombre" required/>
+                    <label for="nombre">Nombre:</label>
+                    <input th:field="*{nombre}" type="text" id="nombre" required/>
 
-                <label for="apellido">Apellido:</label>
-                <input th:field="*{apellido}" type="text" id="apellido" required/>
+                    <label for="apellido">Apellido:</label>
+                    <input th:field="*{apellido}" type="text" id="apellido" required/>
 
-                <label for="usuario">Usuario:</label>
-                <input th:field="*{usuario}" type="text" id="usuario" required/>
+                    <label for="usuario">Usuario:</label>
+                    <input th:field="*{usuario}" type="text" id="usuario" required/>
 
-                <label for="password">Contraseña:</label>
-                <input th:field="*{contrasenia}" type="password" id="password" required/>
+                    <label for="password">Contraseña:</label>
+                    <input th:field="*{contrasenia}" type="password" id="password" required/>
 
-                <label for="email">Email:</label>
-                <input th:field="*{email}" type="text" id="email" required/>
+                    <label for="email">Email:</label>
+                    <input th:field="*{email}" type="text" id="email" required/>
 
-                <label for="dni">DNI:</label>
-                <input th:field="*{dni}" type="number" id="dni" required/>
+                    <label for="dni">DNI:</label>
+                    <input th:field="*{dni}" type="number" id="dni" required/>
 
-                <button type="submit">Registrarme</button>
-            </form>
+                    <button class="boton-registrarme" type="submit">Registrarme</button>
+                </form>
 
-        </div>
-    </div>
+            </div>
+        </article>
+
+    </section>
 
 </main>
 </body>

@@ -26,14 +26,8 @@ public class CasinoController {
     }
 
     @RequestMapping("/home")
-    public ModelAndView mostrarHome() {
+    public ModelAndView mostrarHome(HttpSession session) {
         String nombreVista = "home";
-        return new ModelAndView(nombreVista);
-    }
-
-    @RequestMapping("/blackjack")
-    public ModelAndView mostrarJuegosDeBlackjack(HttpSession session) {
-        String nombreVista = "blackjack";
         ModelMap model = new ModelMap();
         Boolean estadoDelJugador = (Boolean) session.getAttribute("estaLogueado");
 
@@ -42,6 +36,14 @@ public class CasinoController {
             session.setAttribute("estaLogueado", estadoDelJugador);
         }
 
+        if (estadoDelJugador) {
+            Integer idJugador = (Integer) session.getAttribute("idJugador");
+            Jugador jugadorObtenido = casinoServicio.obtenerJugadorPorId(idJugador);
+            model.put("saldoJugador", jugadorObtenido.getSaldo());
+            model.put("nombreUsuario", jugadorObtenido.getUsuario());
+        }
+
+        model.put("jugador", new Jugador());
         model.put("estaLogueado", estadoDelJugador);
         return new ModelAndView(nombreVista, model);
     }

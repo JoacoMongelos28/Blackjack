@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const iniciarSesion = document.getElementById('iniciar-sesion');
+    if (iniciarSesion) {
+        iniciarSesion.addEventListener('click', mostrarPopupSiElJugadorNoEstaLogueado);
+    }
+
     const idBlackjack = document.getElementById('id-blackjack');
     if (idBlackjack) {
         idBlackjack.addEventListener('click', mostrarPopupSiElJugadorNoEstaLogueado);

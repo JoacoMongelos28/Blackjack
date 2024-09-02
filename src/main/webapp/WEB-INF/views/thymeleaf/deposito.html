@@ -16,7 +16,49 @@
             <button type="submit">Depositar</button>
         </form>
     </section>
+
+    <section th:unless="${estaLogueado}">
+        <form th:action="@{/loguear}" method="POST" id="login-form">
+            <label for="email"></label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <label for="contrasenia"></label>
+            <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" required>
+            <p id="error" style="color: red; display: none;"></p>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </section>
 </main>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginForm = document.getElementById("login-form");
+        if (loginForm) {
+            loginForm.addEventListener("submit", function(event){
+                event.preventDefault();
+
+                const formData = new FormData(this);
+
+                fetch("/loguear", {
+                    method: "POST",
+                    body: new URLSearchParams(formData)
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === "success") {
+                            window.location.href = "/deposito";
+                        } else {
+                            document.getElementById("error").innerText = data;
+                            document.getElementById("error").style.display = "block";
+                        }
+                    })
+                    .catch(error => {
+                        document.getElementById("error").innerText = "Ocurrió un error inesperado";
+                        document.getElementById("error").style.display = "block";
+                    });
+            });
+        }
+    });
+</script>
+
 </html>

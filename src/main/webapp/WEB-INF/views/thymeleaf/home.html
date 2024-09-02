@@ -1,20 +1,553 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Blackjack</title>
+    <link rel="stylesheet" th:href="@{/css/casino.css}"/>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #212121;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+        .juego {
+            display: inline-block;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .portada-blackjack {
+            position: relative;
+            background-image: url("http://localhost:8080/css/imagenes/BJ-Portada.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 400px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .portada-baccarat {
+            position: relative;
+            background-image: url("http://localhost:8080/css/imagenes/Baccarat.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 400px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .portada-ruleta {
+            position: relative;
+            background-image: url("http://localhost:8080/css/imagenes/Ruleta.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 400px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .portada-blackjack-2 {
+            position: relative;
+            background-image: url("http://localhost:8080/css/imagenes/BJ-Portada-2.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 400px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .portada-sugar-rush {
+            position: relative;
+            background-image: url("http://localhost:8080/css/imagenes/Sugar Rush.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 400px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .texto-juego {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+            width: 100%;
+            text-align: center;
+        }
+        .juego:hover {
+            color: #ffffff;
+            transform: translateY(-20px);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        .texto-popup {
+            color: #000000;
+        }
+        .contenedor-categorias {
+            display: flex;
+            list-style-type: none;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        .categoria {
+            padding: 20px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.7s ease;
+        }
+        .contenedor-juegos {
+            display: flex;
+            justify-content: center;
+            gap: 150px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+        .contenedor-principal-categorias {
+            margin-top: 50px;
+        }
+        .card {
+            margin: auto;
+            position: relative;
+            width: 285px;
+            height: 381px;
+            background-color: #000;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            left: -5px;
+            margin: auto;
+            width: 295px;
+            height: 386px;
+            border-radius: 10px;
+            background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+            z-index: -10;
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card::after {
+            content: "";
+            z-index: -1;
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+            transform: translate3d(0, 0, 0) scale(0.95);
+            filter: blur(20px);
+        }
+
+        .heading {
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: 700;
+        }
+
+        .card p:last-child {
+            color: #e81cff;
+            font-weight: 600;
+        }
+
+        .card:hover::after {
+            filter: blur(30px);
+        }
+
+        .card:hover::before {
+            transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
+        }
+
+        .titulo-iniciar-sesion {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #FFFFFF;
+            margin-top: 55px;
+        }
+
+        #login-form input[type="email"],
+        #login-form input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #333;
+        }
+
+        #login-form input[type="text"]:focus,
+        #login-form input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        #login-form button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #error {
+            text-align: center;
+        }
+
+        .contenedor-opciones {
+            display: flex;
+            font-size: 14px;
+            position: absolute;
+            bottom: 10px;
+            gap: 50px;
+        }
+        .contenedor-header {
+            display: flex;
+            align-items: center;
+            padding: 30px;
+            background-color: red;
+            justify-content: space-between;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .contenedor-principal-popup {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+        }
+        .contenedor-popup {
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+            background-color: white;
+            color: black;
+        }
+        #cerrarSaldoModal {
+            padding: 10px;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: palegreen;
+            border: none;
+            border-radius: 5px;
+        }
+        #boton-depositar {
+            border-radius: 2px;
+            font-size: 15px;
+            color: green;
+            border: 1px solid darkgreen;
+            padding: 8px 6px;
+            line-height: 18px;
+            cursor: pointer;
+        }
+        .contenedor-saldo-boton {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .categoria.active {
+            background-color: #cccccc;
+            color: #212121;
+        }
+    </style>
 </head>
 <body>
-<h1>CASINO ONLINE</h1>
 
 <main>
+    <header class="contenedor-header">
+        <div>
+            <h3>CASINO ONLINE</h3>
+        </div>
+        <div>
+            <label for="buscador"></label>
+            <input type="text" id="buscador">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div th:if="${estaLogueado}">
+            <p>Saldo: <span th:text="${saldoJugador}"></span></p>
+        </div>
+        <div th:unless="${estaLogueado}">
+            <button id="iniciar-sesion">Iniciar Sesión</button>
+        </div>
+    </header>
+
+
+    <nav>
+        <div class="contenedor-principal-categorias">
+            <ul class="contenedor-categorias">
+                <li>
+                    <a href="#" class="categoria" data-filter="todos">Todos los juegos</a>
+                </li>
+                <li>
+                    <a href="#" class="categoria" data-filter="blackjack">Blackjack</a>
+                </li>
+                <li>
+                    <a href="#" class="categoria" data-filter="ruleta">Ruleta</a>
+                </li>
+                <li>
+                    <a href="#" class="categoria" data-filter="baccarat">Baccarat</a>
+                </li>
+                <li>
+                    <a href="#" class="categoria" data-filter="slot">Slots</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <section>
-        <div>
-            <a th:href="blackjack">Blackjack</a>
+        <div class="contenedor-juegos">
+            <input type="hidden" id="estado-del-jugador" th:value="${estaLogueado}">
+            <div class="contenedor-juego-blackjack">
+                <a class="juego" id="id-blackjack" th:href="@{/mesa-blackjack}">
+                    <div class="portada-blackjack" data-category="blackjack" data-nombre="Blackjack">
+                        <p class="texto-juego">Jugar Blackjack</p>
+                    </div>
+                </a>
+            </div>
+            <div class="contenedor-juego-ruleta">
+                <a class="juego" href="#">
+                    <div class="portada-ruleta" data-category="ruleta" data-nombre="Ruleta">
+                        <p class="texto-juego">Jugar Ruleta<br>(Proximamente)</p>
+                    </div>
+                </a>
+            </div>
+            <div class="contenedor-juego-baccarat">
+                <a class="juego" href="#">
+                    <div class="portada-baccarat" data-category="baccarat" data-nombre="Baccarat">
+                        <p class="texto-juego">Jugar Baccarat<br>(Proximamente)</p>
+                    </div>
+                </a>
+            </div>
+            <div class="contenedor-juego-blackjack">
+                <a class="juego" href="#">
+                    <div class="portada-blackjack-2" data-category="blackjack" data-nombre="Blackjack">
+                        <p class="texto-juego">Jugar Blackjack<br>(Proximamente)</p>
+                    </div>
+                </a>
+            </div>
+            <div class="contenedor-juego-sugar-rush">
+                <a class="juego" href="#">
+                    <div class="portada-sugar-rush" data-category="slot" data-nombre="Sugar Rush">
+                        <p class="texto-juego">Jugar Sugar Rush<br>(Proximamente)</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
+    <div id="miModal" class="modal">
+        <div class="modal-content">
+            <div class="contenedor-login">
+                <div class="card">
+                    <span class="close">&times;</span>
+                    <form th:action="@{/loguear}" method="POST" id="login-form">
+                        <h3 class="titulo-iniciar-sesion">Iniciar Sesión</h3>
+
+                        <label for="email"></label>
+                        <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email"/>
+
+                        <label for="password"></label>
+                        <input type="password" id="password" name="contrasenia" placeholder="Contraseña" required/>
+
+                        <p id="error" style="color: red; display: none;"></p>
+
+                        <button type="submit">Ingresar</button>
+
+                        <div class="contenedor-opciones">
+                            <div>
+                                <a th:href="@{/login}">¿Olvidaste tu contraseña?</a>
+                            </div>
+                            <div>
+                                <a th:href="@{/registrarse}">Registrarte</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="saldoModal" class="popup">
+        <div class="contenedor-principal-popup">
+            <div class="contenedor-popup">
+                <h3 class="titulo-saldo">Bienvenido <span th:text="${nombreUsuario}"></span> </h3>
+                <div class="contenedor-saldo-boton">
+                    <p>Saldo actual: <span th:text="${saldoJugador}" id="saldo-usuario"></span></p>
+                    <div th:href="deposito" id="boton-depositar">Depositar</div>
+                </div>
+
+                <button id="cerrarSaldoModal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
 </main>
 </body>
+<script th:src="@{/js/blackjack.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const categorias = document.querySelectorAll('.contenedor-categorias .categoria');
+
+        const defaultCategoria = document.querySelector('.contenedor-categorias .categoria[data-filter="todos"]');
+        if (defaultCategoria) {
+            defaultCategoria.classList.add('active');
+        }
+
+        function filterGames(filter) {
+            const games = document.querySelectorAll('.contenedor-juegos .juego');
+            games.forEach(game => {
+                const category = game.querySelector('[data-category]').getAttribute('data-category');
+                if (filter === 'todos' || category === filter) {
+                    game.parentElement.style.display = 'block';
+                } else {
+                    game.parentElement.style.display = 'none';
+                }
+            });
+        }
+
+        categorias.forEach(categoria => {
+            categoria.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                categorias.forEach(cat => cat.classList.remove('active'));
+
+                categoria.classList.add('active');
+
+                const filter = categoria.getAttribute('data-filter');
+                filterGames(filter);
+            });
+        });
+    });
+
+    document.getElementById("login-form").addEventListener("submit", function(event){
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch("/loguear", {
+            method: "POST",
+            body: new URLSearchParams(formData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    localStorage.removeItem('popupMostrado');
+                    window.location.href = "/home";
+                } else {
+                    document.getElementById("error").innerText = data;
+                    document.getElementById("error").style.display = "block";
+                }
+            })
+            .catch(error => {
+                document.getElementById("error").innerText = "Ocurrió un error inesperado";
+                document.getElementById("error").style.display = "block";
+            });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const saldoSpan = document.getElementById('saldo-usuario');
+        const saldo = saldoSpan ? saldoSpan.textContent.trim() : null;
+
+        const popupMostrado = localStorage.getItem('popupMostrado');
+
+        if (saldo && !popupMostrado) {
+            const modal = document.getElementById("saldoModal");
+            modal.style.display = "block";
+
+            localStorage.setItem('popupMostrado', 'true');
+
+            const cerrarModalBtn = document.getElementById("cerrarSaldoModal");
+            cerrarModalBtn.onclick = function() {
+                modal.style.display = "none";
+            };
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const miDiv = document.getElementById('boton-depositar');
+
+        miDiv.addEventListener('click', () => {
+            window.location.href = 'deposito';
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const buscador = document.getElementById('buscador');
+        const juegos = document.querySelectorAll('.contenedor-juegos .juego');
+
+        function filterGames(searchTerm) {
+            juegos.forEach(juego => {
+                const nombreJuego = juego.querySelector('[data-nombre]').getAttribute('data-nombre').toLowerCase();
+                const matchesSearchTerm = nombreJuego.includes(searchTerm.toLowerCase());
+
+                if (matchesSearchTerm) {
+                    juego.parentElement.style.display = 'block';
+                } else {
+                    juego.parentElement.style.display = 'none';
+                }
+            });
+        }
+
+        function setActiveCategory(filter) {
+            const categorias = document.querySelectorAll('.contenedor-categorias .categoria');
+            categorias.forEach(categoria => {
+                categoria.classList.remove('active');
+            });
+
+            const activeCategoria = document.querySelector(`.contenedor-categorias .categoria[data-filter="${filter}"]`);
+            if (activeCategoria) {
+                activeCategoria.classList.add('active');
+            }
+        }
+
+        buscador.addEventListener('input', () => {
+            const searchTerm = buscador.value;
+            filterGames(searchTerm);
+
+            // Marca "Todos los juegos" como activo
+            setActiveCategory('todos');
+        });
+
+        // Establecer "Todos los juegos" como activo por defecto al cargar la página
+        setActiveCategory('todos');
+    });
+
+</script>
 </html>

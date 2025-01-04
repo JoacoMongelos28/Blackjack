@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class JugadorController {
 
@@ -21,7 +23,13 @@ public class JugadorController {
     }
 
     @RequestMapping(value = "/registrarse")
-    public ModelAndView mostrarFormularioDeRegistro() {
+    public ModelAndView mostrarFormularioDeRegistro(HttpSession session) {
+        Boolean estadoDelJugador = (Boolean) session.getAttribute("estaLogueado");
+
+        if (Boolean.TRUE.equals(estadoDelJugador)) {
+            return new ModelAndView("redirect:/home");
+        }
+
         String nombreVista = "registrarse";
         ModelMap model = new ModelMap();
         model.put("jugador", new Jugador());
@@ -38,7 +46,7 @@ public class JugadorController {
             }
 
             this.jugadorServicio.registrarJugador(jugador);
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/home");
         } catch (UsuarioInvalidoException e) {
             model.put("error", e.getMessage());
             return new ModelAndView("redirect:/error", model);

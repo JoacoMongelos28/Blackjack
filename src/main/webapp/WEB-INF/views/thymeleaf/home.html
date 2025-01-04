@@ -2,312 +2,52 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Blackjack</title>
-    <link rel="stylesheet" th:href="@{/css/casino.css}"/>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}"/>
+    <title>Casino</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #212121;
-            color: #FFFFFF;
-            margin: 0;
-            padding: 0;
-        }
-        .juego {
-            display: inline-block;
-            text-decoration: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .portada-blackjack {
-            position: relative;
-            background-image: url("http://localhost:8080/css/imagenes/BJ-Portada.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 400px;
-            width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .portada-baccarat {
-            position: relative;
-            background-image: url("http://localhost:8080/css/imagenes/Baccarat.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 400px;
-            width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .portada-ruleta {
-            position: relative;
-            background-image: url("http://localhost:8080/css/imagenes/Ruleta.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 400px;
-            width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .portada-blackjack-2 {
-            position: relative;
-            background-image: url("http://localhost:8080/css/imagenes/BJ-Portada-2.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 400px;
-            width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .portada-sugar-rush {
-            position: relative;
-            background-image: url("http://localhost:8080/css/imagenes/Sugar Rush.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 400px;
-            width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .texto-juego {
-            position: absolute;
-            top: 85%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px #000000;
-            width: 100%;
-            text-align: center;
-        }
-        .juego:hover {
-            color: #ffffff;
-            transform: translateY(-20px);
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-        }
-        .texto-popup {
-            color: #000000;
-        }
-        .contenedor-categorias {
-            display: flex;
-            list-style-type: none;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-        }
-        .categoria {
-            padding: 20px;
-            color: white;
-            text-decoration: none;
-            transition: background-color 0.7s ease;
-        }
-        .contenedor-juegos {
-            display: flex;
-            justify-content: center;
-            gap: 150px;
-            margin-top: 80px;
-            flex-wrap: wrap;
-        }
-        .contenedor-principal-categorias {
-            margin-top: 50px;
-        }
-        .card {
-            margin: auto;
-            position: relative;
-            width: 285px;
-            height: 381px;
-            background-color: #000;
-            padding: 12px;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            left: -5px;
-            margin: auto;
-            width: 295px;
-            height: 386px;
-            border-radius: 10px;
-            background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
-            z-index: -10;
-            pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card::after {
-            content: "";
-            z-index: -1;
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
-            transform: translate3d(0, 0, 0) scale(0.95);
-            filter: blur(20px);
-        }
-
-        .heading {
-            font-size: 20px;
-            text-transform: capitalize;
-            font-weight: 700;
-        }
-
-        .card p:last-child {
-            color: #e81cff;
-            font-weight: 600;
-        }
-
-        .card:hover::after {
-            filter: blur(30px);
-        }
-
-        .card:hover::before {
-            transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
-        }
-
-        .titulo-iniciar-sesion {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #FFFFFF;
-            margin-top: 55px;
-        }
-
-        #login-form input[type="email"],
-        #login-form input[type="password"] {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 15px;
-            color: #333;
-        }
-
-        #login-form input[type="text"]:focus,
-        #login-form input[type="password"]:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        #login-form button[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #login-form button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        #error {
-            text-align: center;
-        }
-
-        .contenedor-opciones {
-            display: flex;
-            font-size: 14px;
-            position: absolute;
-            bottom: 10px;
-            gap: 50px;
-        }
-        .contenedor-header {
-            display: flex;
-            align-items: center;
-            padding: 30px;
-            background-color: red;
-            justify-content: space-between;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
-        .contenedor-principal-popup {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-        }
-        .contenedor-popup {
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-            background-color: white;
-            color: black;
-        }
-        #cerrarSaldoModal {
-            padding: 10px;
-            font-size: 18px;
-            width: 100%;
-            margin-top: 20px;
-            background-color: palegreen;
-            border: none;
-            border-radius: 5px;
-        }
-        #boton-depositar {
-            border-radius: 2px;
-            font-size: 15px;
-            color: green;
-            border: 1px solid darkgreen;
-            padding: 8px 6px;
-            line-height: 18px;
-            cursor: pointer;
-        }
-        .contenedor-saldo-boton {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .categoria.active {
-            background-color: #cccccc;
-            color: #212121;
-        }
-    </style>
 </head>
 <body>
-
-<main>
-    <header class="contenedor-header">
+<header>
+    <div class="contenedor-header">
         <div>
-            <h3>CASINO ONLINE</h3>
+            <a href="home" class="texto-casino">CASINO ONLINE</a>
         </div>
         <div>
-            <label for="buscador"></label>
-            <input type="text" id="buscador">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="logo-casino"></div>
         </div>
-        <div th:if="${estaLogueado}">
-            <p>Saldo: <span th:text="${saldoJugador}"></span></p>
+        <div th:if="${estaLogueado}" class="info-usuario">
+            <div>
+                <div>
+                    <p class="saldo">$<span th:text="${saldoJugador}"></span></p>
+                </div>
+                <div>
+                    <a class="depositar-txt" href="deposito">Depositar</a>
+                </div>
+            </div>
+            <div>
+                <i class="fa-solid fa-user icono-usuario"></i>
+            </div>
         </div>
         <div th:unless="${estaLogueado}">
-            <button id="iniciar-sesion">Iniciar Sesión</button>
+            <button class="boton-iniciar-sesion" id="iniciar-sesion">Iniciar Sesión</button>
         </div>
-    </header>
+    </div>
 
+    <div class="menu-usuario">
+        <a class="menu-usuario-a" th:href="@{cerrar-sesion}">Cerrar Sesión</a>
+    </div>
+
+    <div class="contenedor-buscador">
+        <div class="buscador">
+            <svg class="icono-buscar" aria-hidden="true" viewBox="0 0 24 24">
+                <g>
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                </g>
+            </svg>
+            <label for="buscador"></label>
+            <input placeholder="Buscar" type="search" class="input-buscador" id="buscador">
+        </div>
+    </div>
 
     <nav>
         <div class="contenedor-principal-categorias">
@@ -330,224 +70,121 @@
             </ul>
         </div>
     </nav>
+</header>
 
+<main>
     <section>
-        <div class="contenedor-juegos">
+        <article class="contenedor-juegos">
             <input type="hidden" id="estado-del-jugador" th:value="${estaLogueado}">
-            <div class="contenedor-juego-blackjack">
+            <div>
                 <a class="juego" id="id-blackjack" th:href="@{/mesa-blackjack}">
+                    <div></div>
                     <div class="portada-blackjack" data-category="blackjack" data-nombre="Blackjack">
                         <p class="texto-juego">Jugar Blackjack</p>
                     </div>
                 </a>
             </div>
-            <div class="contenedor-juego-ruleta">
+            <div>
                 <a class="juego" href="#">
                     <div class="portada-ruleta" data-category="ruleta" data-nombre="Ruleta">
                         <p class="texto-juego">Jugar Ruleta<br>(Proximamente)</p>
                     </div>
-                </a>
-            </div>
-            <div class="contenedor-juego-baccarat">
+                </a></div>
+            <div>
                 <a class="juego" href="#">
                     <div class="portada-baccarat" data-category="baccarat" data-nombre="Baccarat">
                         <p class="texto-juego">Jugar Baccarat<br>(Proximamente)</p>
                     </div>
-                </a>
-            </div>
-            <div class="contenedor-juego-blackjack">
+                </a></div>
+            <div>
                 <a class="juego" href="#">
                     <div class="portada-blackjack-2" data-category="blackjack" data-nombre="Blackjack">
                         <p class="texto-juego">Jugar Blackjack<br>(Proximamente)</p>
                     </div>
-                </a>
-            </div>
-            <div class="contenedor-juego-sugar-rush">
+                </a></div>
+            <div>
                 <a class="juego" href="#">
                     <div class="portada-sugar-rush" data-category="slot" data-nombre="Sugar Rush">
                         <p class="texto-juego">Jugar Sugar Rush<br>(Proximamente)</p>
                     </div>
-                </a>
-            </div>
-        </div>
+                </a></div>
+        </article>
     </section>
 
-    <div id="miModal" class="modal">
-        <div class="modal-content">
+    <div id="popup" class="popup">
+        <div class="contenedor-principal-login">
             <div class="contenedor-login">
-                <div class="card">
-                    <span class="close">&times;</span>
-                    <form th:action="@{/loguear}" method="POST" id="login-form">
-                        <h3 class="titulo-iniciar-sesion">Iniciar Sesión</h3>
+                <span class="icono-cerrar">&times;</span>
+                <form th:action="@{/loguear}" method="POST" id="login-form">
+                    <h3 class="titulo-iniciar-sesion">Iniciar Sesión</h3>
 
-                        <label for="email"></label>
-                        <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email"/>
+                    <label for="email"></label>
+                    <input class="input-email" type="email" id="email" name="email" placeholder="Email" required
+                           autocomplete="email"/>
 
-                        <label for="password"></label>
-                        <input type="password" id="password" name="contrasenia" placeholder="Contraseña" required/>
+                    <label for="password"></label>
+                    <input class="input-contrasenia" type="password" id="password" name="contrasenia"
+                           placeholder="Contraseña" required/>
 
-                        <p id="error" style="color: red; display: none;"></p>
+                    <p id="error"></p>
 
-                        <button type="submit">Ingresar</button>
+                    <button class="boton-ingresar" type="submit">Ingresar</button>
 
-                        <div class="contenedor-opciones">
-                            <div>
-                                <a th:href="@{/login}">¿Olvidaste tu contraseña?</a>
-                            </div>
-                            <div>
-                                <a th:href="@{/registrarse}">Registrarte</a>
-                            </div>
+                    <div class="contenedor-opciones">
+                        <div>
+                            <a href="#" class="texto-olvidar-contrasenia">¿Olvidaste tu contraseña?</a>
                         </div>
-                    </form>
-                </div>
+                        <div>
+                            <a th:href="@{/registrarse}" class="texto-registrarse">Registrarte</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <div id="saldoModal" class="popup">
-        <div class="contenedor-principal-popup">
-            <div class="contenedor-popup">
-                <h3 class="titulo-saldo">Bienvenido <span th:text="${nombreUsuario}"></span> </h3>
-                <div class="contenedor-saldo-boton">
+    <div id="popup-saldo" class="popup">
+        <div class="contenedor-principal-saldo">
+            <div class="contenedor-saldo">
+                <h3>Bienvenido <span th:text="${nombreUsuario}"></span></h3>
+                <div class="contenedor-info-saldo">
                     <p>Saldo actual: <span th:text="${saldoJugador}" id="saldo-usuario"></span></p>
                     <div th:href="deposito" id="boton-depositar">Depositar</div>
                 </div>
-
-                <button id="cerrarSaldoModal">Cerrar</button>
+                <button id="cerrarPopup">Cerrar</button>
             </div>
         </div>
     </div>
-
 </main>
+
+<footer>
+    <div class="contenedor-footer">
+        <ul class="contenedor-redes-sociales">
+            <li class="red-social">
+                <a href="https://www.linkedin.com/in/joaquinmongelos/" aria-label="LinkedIn" data-social="linkedin" target="_blank">
+                    <div class="filled"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-linkedin" viewBox="0 0 16 16" xml:space="preserve">
+                        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
+                              fill="currentColor"></path>
+                    </svg>
+                </a>
+                <div class="tooltip">LinkedIn</div>
+            </li>
+            <li class="red-social">
+                <a href="https://github.com/JoacoMongelos28" aria-label="GitHub" data-social="github" target="_blank">
+                    <div class="filled"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-github" viewBox="0 0 16 16" xml:space="preserve">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                              fill="currentColor"></path>
+                    </svg>
+                </a>
+                <div class="tooltip">GitHub</div>
+            </li>
+        </ul>
+    </div>
+</footer>
 </body>
-<script th:src="@{/js/blackjack.js}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const categorias = document.querySelectorAll('.contenedor-categorias .categoria');
-
-        const defaultCategoria = document.querySelector('.contenedor-categorias .categoria[data-filter="todos"]');
-        if (defaultCategoria) {
-            defaultCategoria.classList.add('active');
-        }
-
-        function filterGames(filter) {
-            const games = document.querySelectorAll('.contenedor-juegos .juego');
-            games.forEach(game => {
-                const category = game.querySelector('[data-category]').getAttribute('data-category');
-                if (filter === 'todos' || category === filter) {
-                    game.parentElement.style.display = 'block';
-                } else {
-                    game.parentElement.style.display = 'none';
-                }
-            });
-        }
-
-        categorias.forEach(categoria => {
-            categoria.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                categorias.forEach(cat => cat.classList.remove('active'));
-
-                categoria.classList.add('active');
-
-                const filter = categoria.getAttribute('data-filter');
-                filterGames(filter);
-            });
-        });
-    });
-
-    document.getElementById("login-form").addEventListener("submit", function(event){
-        event.preventDefault();
-
-        const formData = new FormData(this);
-
-        fetch("/loguear", {
-            method: "POST",
-            body: new URLSearchParams(formData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                if (data === "success") {
-                    localStorage.removeItem('popupMostrado');
-                    window.location.href = "/home";
-                } else {
-                    document.getElementById("error").innerText = data;
-                    document.getElementById("error").style.display = "block";
-                }
-            })
-            .catch(error => {
-                document.getElementById("error").innerText = "Ocurrió un error inesperado";
-                document.getElementById("error").style.display = "block";
-            });
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const saldoSpan = document.getElementById('saldo-usuario');
-        const saldo = saldoSpan ? saldoSpan.textContent.trim() : null;
-
-        const popupMostrado = localStorage.getItem('popupMostrado');
-
-        if (saldo && !popupMostrado) {
-            const modal = document.getElementById("saldoModal");
-            modal.style.display = "block";
-
-            localStorage.setItem('popupMostrado', 'true');
-
-            const cerrarModalBtn = document.getElementById("cerrarSaldoModal");
-            cerrarModalBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const miDiv = document.getElementById('boton-depositar');
-
-        miDiv.addEventListener('click', () => {
-            window.location.href = 'deposito';
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const buscador = document.getElementById('buscador');
-        const juegos = document.querySelectorAll('.contenedor-juegos .juego');
-
-        function filterGames(searchTerm) {
-            juegos.forEach(juego => {
-                const nombreJuego = juego.querySelector('[data-nombre]').getAttribute('data-nombre').toLowerCase();
-                const matchesSearchTerm = nombreJuego.includes(searchTerm.toLowerCase());
-
-                if (matchesSearchTerm) {
-                    juego.parentElement.style.display = 'block';
-                } else {
-                    juego.parentElement.style.display = 'none';
-                }
-            });
-        }
-
-        function setActiveCategory(filter) {
-            const categorias = document.querySelectorAll('.contenedor-categorias .categoria');
-            categorias.forEach(categoria => {
-                categoria.classList.remove('active');
-            });
-
-            const activeCategoria = document.querySelector(`.contenedor-categorias .categoria[data-filter="${filter}"]`);
-            if (activeCategoria) {
-                activeCategoria.classList.add('active');
-            }
-        }
-
-        buscador.addEventListener('input', () => {
-            const searchTerm = buscador.value;
-            filterGames(searchTerm);
-
-            // Marca "Todos los juegos" como activo
-            setActiveCategory('todos');
-        });
-
-        // Establecer "Todos los juegos" como activo por defecto al cargar la página
-        setActiveCategory('todos');
-    });
-
-</script>
+<script th:src="@{/js/home.js}"></script>
 </html>

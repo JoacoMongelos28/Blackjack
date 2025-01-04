@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.Jugador;
 
+import com.tallerwebi.dominio.Casino.ICasinoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ public class JugadorServicio implements IJugadorServicio {
     @Override
     @Transactional
     public void registrarJugador(Jugador jugador) {
+        jugador.setSaldo(10000.0);
         this.jugadorRepositorio.guardarJugador(jugador);
     }
 }

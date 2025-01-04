@@ -1,0 +1,92 @@
+body {
+    padding: 0;
+}
+
+.contenedor-nav {
+    background-color: rgba(17, 24, 39, 1);
+    width: 100%;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.logo-casino {
+    margin: auto;
+}
+
+.txt-nav {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.titulo-nuevo-usuario {
+    margin-bottom: 25px;
+    color: #000000;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 1px;
+    padding: 1rem 0.75rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    outline: 1px solid #b6b6b6;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.boton-registrarme {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(11 31 75);
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.boton-registrarme:hover {
+    background-color: #2f303d;
+}
+
+.boton-registrarme:active {
+    background-color: #00408d;
+}
+
+.contenedor-principal-form-registro {
+    background-color: #ebeded;
+    width: 80%;
+    margin: auto;
+    height: 100vh;
+}
+
+.contenedor-form-registro {
+    padding-top: 30px;
+    width: 25%;
+}
+
+.contenedor-principal-form {
+    display: flex;
+    justify-content: center;
+    color: #000e7a;
+    font-weight: 600;
+}

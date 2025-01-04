@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Cambria Math", sans-serif;
+    background-image: url("http://localhost:8080/css/imagenes/Mesa.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    height: 100vh;
+}
+
+.titulo {
+    text-align: center;
+    padding: 30px 0 0 0;
+    font-size: 50px;
+}
+
+.mesa {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 15px;
+     height: 480px;
+}
+
+.crupier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+    height: 230px;
+}
+
+.cartas {
+     display: flex;
+     position: relative;
+     z-index: 1;
+}
+
+.jugador {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin: 30px;
+}
+
+.contenedor-mano {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 150px;
+}
+
+#apuesta-input {
+    text-align: center;
+    position: relative;
+}
+
+#apuesta {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid #28ffbb;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.botones {
+    display: flex;
+    margin-top: 85px;
+}
+
+.contenedor-botones-apuestas {
+    width: 50%;
+    text-align: center;
+}
+
+.contenedor-botones {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-saldo {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+.saldo-info {
+    position: fixed;
+    bottom: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 300px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+#valor-jugador, #valor-crupier, #valor-jugador-1, #valor-jugador-2 {
+    border-radius: 50%;
+    border: 2px solid #000000;
+    width: 50px;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 85px;
+    left: -70px;
+    z-index: 3;
+    background-color: orange;
+    transition: background-color 0.5s ease;
+}
+
+.carta { /*Listo*/
+    width: 140px;
+    height: 200px;
+    margin: 0 -55px 30px;
+    border: 1px solid rgba(255, 159, 0, 0.7);
+    transition: opacity 0.5s, transform 0.5s;
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.carta-oculta { /*Listo*/
+    background-color: gray;
+    border: 1px solid rgba(255, 159, 0, 0.7);
+    width: 140px;
+    height: 200px;
+    transform: rotateY(180deg);
+}
+
+.carta img { /*Listo*/
+    width: 100%;
+    height: 100%;
+}
+
+.mostrar {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.boton {
+    padding: 15px 15px;
+    margin: 10px 40px;
+    border: none;
+    background-color: #690094;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.boton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.boton:active {
+    transform: scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.boton-apuesta {
+    margin: 10px 40px;
+    background-color: #3f3f3f;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+
+#boton-500 {
+    border: 4px dashed #d20000;
+}
+
+#boton-1K {
+    border: 4px dashed #d6d61d;
+}
+
+#boton-2K {
+    border: 4px dashed #44c944;
+}
+
+#boton-5K {
+    border: 4px dashed #135ccb;
+}
+
+#boton-10K {
+    border: 4px dashed #4900a6;
+}
+
+.boton-apuesta:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.boton-apuesta:active {
+    transform: scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.boton-con-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.saldo-info .apuesta-container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.apuesta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.jugador.row {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.botones-expandidos {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.texto-boton {
+    font-size: 16px;
+}
+
+.popup {
+     position: fixed;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     background-color: rgba(0, 0, 0, 0.7);
+     color: white;
+     padding: 20px;
+     border-radius: 5px;
+     font-size: 1.5em;
+     z-index: 1000;
+}

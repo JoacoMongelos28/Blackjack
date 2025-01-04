@@ -1,0 +1,580 @@
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background-color: #212121;
+    color: #ffffff;
+    margin: 0;
+    padding: 100px 0 0 0;
+}
+
+.contenedor-header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(17, 24, 39, 1);
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 200px;
+    justify-content: space-between;
+}
+
+.texto-casino {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logo-casino {
+    background-image: url("http://localhost:8080/css/imagenes/Logo.png");
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+}
+
+.info-usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.saldo {
+    font-size: 15px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.depositar-txt {
+    font-size: 15px;
+    color: #5af0a5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.depositar-txt:hover {
+    text-decoration: underline;
+}
+
+.icono-usuario {
+    font-size: 33px;
+    cursor: pointer;
+}
+
+.boton-iniciar-sesion {
+    --clr-font-main: hsla(0 0% 20% / 100);
+    --btn-bg-1: hsla(194 100% 69% / 1);
+    --btn-bg-2: hsla(217 100% 56% / 1);
+    --btn-bg-color: hsla(360 100% 100% / 1);
+    --radii: 0.5em;
+    cursor: pointer;
+    padding: 0.9em 1.4em;
+    min-width: 120px;
+    min-height: 44px;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-weight: 500;
+    transition: 0.8s;
+    background-size: 280% auto;
+    background-image: linear-gradient(325deg, var(--btn-bg-2) 0%, var(--btn-bg-1) 55%, var(--btn-bg-2) 90%);
+    border: none;
+    border-radius: var(--radii);
+    color: var(--btn-bg-color);
+    box-shadow: 0 0 20px rgba(71, 184, 255, 0.5), 0 5px 5px -1px rgba(58, 125, 233, 0.25), inset 4px 4px 8px rgba(175, 230, 255, 0.5), inset -4px -4px 8px rgba(19, 95, 216, 0.35);
+    font-size: 15px;
+}
+
+.boton-iniciar-sesion:hover {
+    background-position: right top;
+}
+
+.boton-iniciar-sesion:is(:focus, :focus-visible, :active) {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--btn-bg-color), 0 0 0 6px var(--btn-bg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .boton-iniciar-sesion {
+        transition: linear;
+    }
+}
+
+.menu-usuario {
+    display: none;
+    position: absolute;
+    right: 200px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.menu-usuario-a {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.menu-usuario-a:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.contenedor-buscador {
+    padding: 25px 0;
+}
+
+.buscador {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    width: 80%;
+    margin: auto;
+}
+
+.icono-buscar {
+    position: absolute;
+    left: 1rem;
+    fill: #bdbecb;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.input-buscador {
+    width: 100%;
+    height: 45px;
+    line-height: 28px;
+    padding: 0 1rem 0 2.5rem;
+    border: 0;
+    border-radius: 12px;
+    outline: none;
+    background-color: #16171d;
+    color: #bdbecb;
+    transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+    cursor: text;
+    box-shadow: 0 0 0 2px #2b2c37, 0 0 25px -17px #000;
+    font-size: 15px;
+}
+
+.input-buscador::placeholder {
+    color: #bdbecb;
+}
+
+.input-buscador:focus, input:hover {
+    outline: none;
+    border-color: rgba(234,76,137,0.4);
+    box-shadow: 0 0 0 3px #2f303d, 0 0 25px -15px #000;
+}
+
+.input-buscador:active {
+    transform: scale(0.95);
+}
+
+.input-buscador:focus {
+    box-shadow: 0 0 0 3px #2f303d;
+}
+
+.contenedor-principal-categorias {
+    margin-top: 50px;
+}
+
+.contenedor-categorias {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+
+.categoria {
+    padding: 20px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.7s ease;
+}
+
+.categoria.active {
+    background-color: #cccccc;
+    color: #212121;
+}
+
+.contenedor-juegos {
+    display: flex;
+    justify-content: center;
+    column-gap: 150px;
+    row-gap: 80px;
+    margin-top: 80px;
+    flex-wrap: wrap;
+}
+
+.juego {
+    display: inline-block;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.juego:hover {
+    color: #ffffff;
+    transform: translateY(-20px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.portada-blackjack {
+    position: relative;
+    background-image: url("http://localhost:8080/css/imagenes/BJ-Portada.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.portada-baccarat {
+    position: relative;
+    background-image: url("http://localhost:8080/css/imagenes/Baccarat.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.portada-ruleta {
+    position: relative;
+    background-image: url("http://localhost:8080/css/imagenes/Ruleta.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.portada-blackjack-2 {
+    position: relative;
+    background-image: url("http://localhost:8080/css/imagenes/BJ-Portada-2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.portada-sugar-rush {
+    position: relative;
+    background-image: url("http://localhost:8080/css/imagenes/Sugar Rush.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.texto-juego {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px #000000;
+    width: 100%;
+    text-align: center;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.contenedor-principal-login {
+    margin: 15% auto;
+}
+
+.contenedor-login {
+    margin: auto;
+    position: relative;
+    width: 285px;
+    height: 330px;
+    background-color: #000;
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+}
+
+.contenedor-login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    left: -5px;
+    margin: auto;
+    width: 260px;
+    height: 350px;
+    border-radius: 10px;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);
+    z-index: -10;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.contenedor-login::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+    transform: translate3d(0, 0, 0) scale(0.95);
+    filter: blur(20px);
+}
+
+.contenedor-login p:last-child {
+    color: #e81cff;
+    font-weight: 600;
+}
+
+.contenedor-login:hover::after {
+    filter: blur(30px);
+}
+
+.contenedor-login:hover::before {
+    transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
+}
+
+.icono-cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.titulo-iniciar-sesion {
+     text-align: center;
+     margin-bottom: 20px;
+     font-size: 24px;
+     color: #FFFFFF;
+     margin-top: 55px;
+ }
+
+.input-email, .input-contrasenia {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #333;
+}
+
+.input-email:focus, .input-contrasenia:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#error {
+     text-align: center;
+     margin-top: -5px;
+     color: red;
+     display: none;
+ }
+
+.boton-ingresar {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(11 31 75);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ingresar:hover {
+    background-color: #2f303d;
+    margin-bottom: 15px;
+}
+
+.contenedor-opciones {
+    display: flex;
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    gap: 50px;
+}
+
+.texto-olvidar-contrasenia, .texto-registrarse {
+    color: rgba(243, 244, 246, 1);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.texto-olvidar-contrasenia:hover, .texto-registrarse:hover {
+    text-decoration: underline rgba(167, 139, 250, 1);
+}
+
+.contenedor-principal-saldo {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+}
+
+.contenedor-saldo {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    background-color: white;
+    color: black;
+}
+
+.contenedor-info-saldo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#boton-depositar {
+    border-radius: 2px;
+    font-size: 15px;
+    color: green;
+    border: 1px solid darkgreen;
+    padding: 8px 6px;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+#cerrarPopup {
+     padding: 10px;
+     font-size: 18px;
+     width: 100%;
+     margin-top: 20px;
+     background-color: palegreen;
+     border: none;
+     border-radius: 5px;
+    cursor: pointer;
+}
+
+.contenedor-footer {
+    display: flex;
+    background-color: rgba(17, 24, 39, 1);
+    height: 150px;
+    margin-top: 100px;
+    justify-content: center;
+}
+
+ul {
+    list-style: none;
+}
+
+.contenedor-redes-sociales {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-redes-sociales .red-social {
+    margin: 0 10px;
+    position: relative;
+}
+
+.contenedor-redes-sociales .red-social .tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.contenedor-redes-sociales .red-social:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -50px;
+}
+
+.contenedor-redes-sociales .red-social a {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #4d4d4d;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.contenedor-redes-sociales .red-social a:hover {
+    box-shadow: 3px 2px 45px 0 rgb(0 0 0 / 12%);
+}
+
+.contenedor-redes-sociales .red-social a svg {
+    position: relative;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+}
+
+.contenedor-redes-sociales .red-social a:hover {
+    color: white;
+}
+
+.contenedor-redes-sociales .red-social a .filled {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #000;
+    transition: all 0.3s ease-in-out;
+}
+
+.contenedor-redes-sociales .red-social a:hover .filled {
+    height: 100%;
+}
+
+.contenedor-redes-sociales .red-social a[data-social="linkedin"] .filled,
+.contenedor-redes-sociales .red-social a[data-social="linkedin"] ~ .tooltip {
+    background-color: #0274b3;
+}
+
+.contenedor-redes-sociales .red-social a[data-social="github"] .filled,
+.contenedor-redes-sociales .red-social a[data-social="github"] ~ .tooltip {
+    background-color: #24262a;
+}

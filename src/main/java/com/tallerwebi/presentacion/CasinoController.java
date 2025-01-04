@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -69,17 +70,25 @@ public class CasinoController {
             session.setAttribute("estaLogueado", estadoDelJugador);
         }
 
+        Jugador jugadorObtenido = this.casinoServicio.obtenerJugadorPorId((Integer) session.getAttribute("idJugador"));
+
+        if (jugadorObtenido != null) {
+            model.put("saldoJugador", jugadorObtenido.getSaldo());
+            model.put("nombreUsuario", jugadorObtenido.getUsuario());
+        }
+
         model.put("estaLogueado", estadoDelJugador);
+
         return new ModelAndView(nombreVista, model);
     }
 
     @RequestMapping(value = "/depositar", method = RequestMethod.POST)
-    public ModelAndView cargarSaldoAlJugador(@RequestParam("saldo") Double saldo, HttpSession session) {
+    public ModelAndView cargarSaldoAlJugador(@RequestParam("saldo") Double saldo, HttpSession session, RedirectAttributes redirectAttributes) {
         ModelMap model = new ModelMap();
 
         if (saldo == null || saldo < 0) {
-            model.put("error", "Saldo a depositar invalido");
-            return new ModelAndView("redirect:/deposito", model);
+            redirectAttributes.addFlashAttribute("error", "Saldo a depositar inválido");
+            return new ModelAndView("redirect:/deposito");
         }
 
         try {
@@ -91,5 +100,11 @@ public class CasinoController {
             model.put("error", e.getMessage());
             return new ModelAndView("redirect:/home", model);
         }
+    }
+
+    @RequestMapping("/cerrar-sesion")
+    public ModelAndView cerrarSesion(HttpSession session) {
+        session.invalidate();
+        return new ModelAndView("redirect:/home");
     }
 }

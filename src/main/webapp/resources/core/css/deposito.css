@@ -1,0 +1,139 @@
+.contenedor-form {
+    background-color: #ebeded;
+    width: 80%;
+    margin: auto;
+    height: 100vh;
+}
+
+.contenedor-principal-deposito {
+    width: 25%;
+    margin: auto;
+    padding: 40px 30px;
+    border-radius: 10px;
+}
+
+.titulo-depositar {
+    margin: 15px 0;
+    font-size: 24px;
+    color: #000000;
+}
+
+.form-deposito {
+    display: flex;
+    row-gap: 12px;
+    flex-direction: column;
+}
+
+.input-depositar,
+.input-email,
+.input-contrasenia {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #5872d7;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.input-depositar:focus,
+.input-email:focus,
+.input-contrasenia:focus {
+    border-color: #007bff;
+}
+
+.input-depositar::-webkit-outer-spin-button,
+.input-depositar::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-depositar {
+    -moz-appearance: textfield;
+}
+
+.boton-depositar {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: rgb(11 31 75);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.boton-depositar:hover {
+    background-color: #2f303d;
+}
+
+#login-form {
+    margin-top: 20px;
+}
+
+#login-form-2 {
+    --bg-light: #efefef;
+    --bg-dark: #707070;
+    --clr: #000e7a;
+    --clr-alpha: #9c9c9c60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+    padding: 50px;
+}
+
+.input-span {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    align-self: flex-start;
+    color: var(--clr);
+    font-weight: 600;
+}
+
+.input-email-2,
+.input-contrasenia-2 {
+    font-size: 14px;
+    border-radius: 1px;
+    padding: 1rem 0.75rem;
+    width: 100%;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    outline: 1px solid #b6b6b6;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.input-email-2:focus,
+.input-contrasenia-2:focus {
+    outline: 2px solid var(--clr);
+}
+
+.span {
+    text-decoration: none;
+    color: var(--bg-dark);
+}
+
+#error {
+    text-align: center;
+    font-size: 14px;
+}
+
+#error-2 {
+    color: red;
+    display: none;
+}
+
+.ayuda-txt {
+    color: var(--clr);
+}

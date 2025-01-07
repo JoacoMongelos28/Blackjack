@@ -459,7 +459,7 @@ input[type=number]::-webkit-inner-spin-button {
     }
 }
 
-@media screen and (min-width: 540px) and (max-width: 767px) {
+@media screen and (min-width: 540px) and (height: 720px) {
     .titulo {
         font-size: 2.5rem;
     }
@@ -547,14 +547,366 @@ input[type=number]::-webkit-inner-spin-button {
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1366px) {
+@media screen and (min-width: 541px) and (max-width: 767px) {
     .titulo {
-        padding-top: 15px;
+        font-size: 2.5rem;
+    }
+
+    .saldo-info {
+        bottom: 10px;
+        gap: 0;
+        justify-content: space-around;
+    }
+
+    #apuesta {
+        width: 90px;
+        height: 90px;
+        font-size: 20px;
+    }
+
+    .texto-boton {
+        font-size: 14px;
     }
 
     .mesa {
-        margin-top: 0;
-        height: 320px;
+        height: 550px;
+        margin: 0;
+    }
+
+    .botones {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .boton {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .contenedor-botones-apuestas {
+        width: 100%;
+    }
+
+    .boton-apuesta {
+        margin: 10px 20px;
+    }
+
+    .contenedor-botones {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .crupier {
+        height: 140px;
+    }
+
+    .carta {
+        width: 100px;
+        height: 150px;
+        margin: 0 -40px;
+    }
+
+    .carta-oculta {
+        width: 100px;
+        height: 150px;
+    }
+
+    .botones-expandidos {
+        justify-content: space-around;
+        margin-top: 50px;
+    }
+
+    .jugador {
+        margin: 30px 0;
+    }
+
+    .contenedor-mano {
+        margin: 0 100px;
+    }
+
+    .popup {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    #valor-crupier, #valor-jugador, #valor-jugador-1, #valor-jugador-2 {
+        top: 60px;
+        left: -60px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .botones {
+        display: block;
+        margin-top: 40px;
+    }
+
+    .contenedor-botones-apuestas {
+        width: 100%;
+    }
+
+    .contenedor-botones {
+        width: 100%;
+    }
+
+    .saldo-info {
+        bottom: 10px;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .mesa {
+        height: 470px;
+    }
+
+    .crupier {
+        margin: 75px;
+    }
+
+    .jugador {
+        margin: 0;
+    }
+
+    .contenedor-mano {
+        margin: 0 120px;
+    }
+
+    .botones-expandidos {
+        margin-top: 50px;
+    }
+}
+
+/*Listo*/
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+    .mesa {
+        height: 250px;
+    }
+
+    .botones {
+        margin-top: 10px;
+    }
+
+    .boton {
+        padding: 10px 10px;
+        margin: 10px 20px;
+    }
+
+    .carta {
+        width: 90px;
+        height: 120px;
+        margin: 0 -35px;
+    }
+
+    .carta-oculta {
+        width: 90px;
+        height: 120px;
+    }
+
+    .crupier {
+        height: 160px;
+        margin: 0;
+    }
+
+    .jugador {
+        margin: 5px;
+    }
+
+    #apuesta {
+        width: 100px;
+        height: 100px;
+    }
+
+    #valor-crupier, #valor-jugador, #valor-jugador-1, #valor-jugador-2 {
+        top: 45px;
+        left: -55px;
+    }
+
+    .saldo-info {
+        bottom: 10px;
+        gap: 0;
+        justify-content: space-around;
+    }
+
+    .contenedor-botones-apuestas {
+        width: 100%;
+    }
+
+    .boton-apuesta {
+        margin: 10px;
+    }
+
+    .contenedor-botones {
+        width: 100%;
+    }
+
+    .botones-expandidos {
+        gap: 50px;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (min-width: 1024px) and (height: 1366px) {
+    .titulo {
+        text-align: center;
+        padding: 50px 0 0 0;
+        font-size: 70px;
+    }
+
+    .mesa {
+        margin-top: 120px;
+        height: 630px;
+    }
+
+    .botones {
+        margin-top: 60px;
+        display: block;
+    }
+
+    .boton {
+        padding: 20px 20px;
+        font-size: 25px;
+    }
+
+    .carta {
+        width: 180px;
+        height: 250px;
+        margin: 0 -70px;
+    }
+
+    .carta-oculta {
+        width: 180px;
+        height: 250px;
+    }
+
+    .crupier {
+        height: 240px;
+        margin: 0 0 170px 0;
+    }
+
+    .jugador {
+        margin: 5px;
+    }
+
+    .texto-boton {
+        font-size: 25px;
+    }
+
+    #apuesta {
+        width: 130px;
+        height: 130px;
+        font-size: 25px;
+    }
+
+    #valor-crupier, #valor-jugador, #valor-jugador-1, #valor-jugador-2 {
+        top: 90px;
+        left: -90px;
+        font-size: 1.5rem;
+        width: 80px;
+        height: 80px;
+    }
+
+    .botones-expandidos {
+        gap: 50px;
+        margin-top: 75px;
+    }
+
+    .saldo-info {
+        bottom: 10px;
+        gap: 0;
+        justify-content: space-around;
+    }
+
+    .contenedor-botones-apuestas {
+        width: 100%;
+    }
+
+    .boton-apuesta {
+        margin: 10px 25px;
+        font-size: 22px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .contenedor-botones {
+        width: 100%;
+    }
+
+    .contenedor-saldo {
+        font-size: 30px;
+    }
+}
+
+@media screen and (min-width: 912px) and (min-height: 1368px) {
+    .titulo {
+        padding: 40px 0 0 0;
+        font-size: 60px;
+    }
+
+    .boton-apuesta {
+        font-size: 24px;
+        width: 80px;
+        height: 80px;
+    }
+
+    #apuesta {
+        width: 140px;
+        height: 140px;
+        font-size: 24px;
+    }
+
+    .boton {
+        padding: 20px 20px;
+        margin: 20px 40px;
+        font-size: 30px;
+    }
+
+    .saldo-info {
+        font-size: 28px;
+    }
+
+    .mesa {
+        margin-top: 60px;
+        height: 710px;
+    }
+
+    .carta {
+        width: 200px;
+        height: 270px;
+        margin: 0 -80px 30px;
+    }
+
+    .carta-oculta {
+        width: 200px;
+        height: 270px;
+    }
+
+    .crupier {
+        margin: 75px 0 170px;
+    }
+
+    #valor-crupier, #valor-jugador, #valor-jugador-1, #valor-jugador-2 {
+        top: 100px;
+        left: -100px;
+        font-size: 30px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .texto-boton {
+        font-size: 25px;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1400px) {
+    .titulo {
+        padding-top: 15px;
+        font-size: 60px;
+    }
+
+    .mesa {
+        margin-top: 40px;
+        height: 360px;
     }
 
     .crupier {
@@ -574,11 +926,15 @@ input[type=number]::-webkit-inner-spin-button {
     }
 
     #valor-crupier, #valor-jugador, #valor-jugador-1, #valor-jugador-2 {
-        top: 60px;
+        top: 65px;
+        left: -60px;
+        font-size: 1.2rem;
+        width: 50px;
+        height: 50px;
     }
 
     .jugador {
-        margin: 0;
+        margin: 40px 0 0 0;
     }
 
     #apuesta {
@@ -588,24 +944,29 @@ input[type=number]::-webkit-inner-spin-button {
     }
 
     .botones {
-        margin-top: 15px;
+        display: flex;
+        margin-top: 70px;
+    }
+
+    .botones-expandidos {
+        margin: 0;
     }
 
     .boton {
         padding: 10px;
         margin: 10px 25px;
-        font-size: 12px
+        font-size: 14px;
     }
 
     .boton-apuesta {
-        margin: 10px 15px;
-        width: 40px;
-        height: 40px;
-        font-size: 12px;
+        margin: 10px 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 16px;
     }
 
     .texto-boton {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     #apuesta {

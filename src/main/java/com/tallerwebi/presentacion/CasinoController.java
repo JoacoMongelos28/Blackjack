@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 public class CasinoController {
@@ -82,20 +83,31 @@ public class CasinoController {
         return new ModelAndView(nombreVista, model);
     }
 
-    @RequestMapping(value = "/depositar", method = RequestMethod.POST)
-    public ModelAndView cargarSaldoAlJugador(@RequestParam("saldo") Double saldo, HttpSession session, RedirectAttributes redirectAttributes) {
-        ModelMap model = new ModelMap();
-
+    @RequestMapping("/procesar-deposito")
+    public ModelAndView procesarDeposito(@RequestParam("saldo") Double saldo, RedirectAttributes redirectAttributes) throws IOException {
         if (saldo == null || saldo < 0) {
             redirectAttributes.addFlashAttribute("error", "Saldo a depositar inválido");
             return new ModelAndView("redirect:/deposito");
+        } else if (saldo < 500.0 | saldo > 2000000.0) {
+            redirectAttributes.addFlashAttribute("error", "El limite de saldo a depositar es entre 500 y 2000000");
+            return new ModelAndView("redirect:/deposito");
         }
 
+        String url = mercadoPagoServicio.pagarDeposito(saldo);
+        return new ModelAndView("redirect:" + url);
+    }
+
+    @RequestMapping(value = "/depositar", method = RequestMethod.GET)
+    public ModelAndView cargarSaldoAlJugador(HttpSession session, @RequestParam(value = "payment", required = false) String payment, @RequestParam(value = "saldo", required = false) Double saldo) {
+        ModelMap model = new ModelMap();
+
         try {
-            String url = mercadoPagoServicio.pagarDeposito(saldo);
-            Jugador jugadorActual = this.casinoServicio.obtenerJugadorPorId((Integer) session.getAttribute("idJugador"));
-            this.casinoServicio.cargarSaldo(jugadorActual, saldo);
-            return new ModelAndView("redirect:" + url);
+            if (payment.equals("success")) {
+                Jugador jugadorActual = this.casinoServicio.obtenerJugadorPorId((Integer) session.getAttribute("idJugador"));
+                this.casinoServicio.cargarSaldo(jugadorActual, saldo);
+                return new ModelAndView("redirect:/deposito");
+            }
+            return new ModelAndView("redirect:/deposito");
         } catch (Exception e) {
             model.put("error", e.getMessage());
             return new ModelAndView("redirect:/home", model);

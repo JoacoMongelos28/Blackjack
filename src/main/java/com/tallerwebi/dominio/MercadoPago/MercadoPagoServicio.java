@@ -18,14 +18,10 @@ public class MercadoPagoServicio implements IMercadoPagoServicio{
     private final String API_URL = "https://api.mercadopago.com/checkout/preferences";
     private final String ACCESS_TOKEN = "TEST-2591301662628250-112013-bef180cd58f4d64d50d056542d3f0d85-151386142";
 
-    static {
-        MercadoPagoConfig.setAccessToken("APP_USR-6516945332441912-062213-33e68d63ba4f0fdd7ffb8678d2be0fa4-1867816013");
-    }
-
     @Override
     @Transactional
     public String pagarDeposito(Double saldo) throws IOException {
-        String apiKey = "APP_USR-6516945332441912-062213-33e68d63ba4f0fdd7ffb8678d2be0fa4-1867816013";
+        String apiKey = "APP_USR-705806417372706-011002-1fe4d4af65b4f79f238b03a2c2755cf6-2201985025";
 
         URL url = new URL("https://api.mercadopago.com/checkout/preferences");
 
@@ -45,8 +41,14 @@ public class MercadoPagoServicio implements IMercadoPagoServicio{
         item.put("currency_id", "ARS");
         item.put("unit_price", saldo);
 
+        // Configura las URLs de retorno
+        JSONObject backUrls = new JSONObject();
+        backUrls.put("success", "http://localhost:8080/depositar?payment=success&saldo=" + saldo);
+
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("items", new JSONObject[]{item});
+        jsonBody.put("back_urls", backUrls);
+        jsonBody.put("auto_return", "approved");
 
         // Envia la solicitud a Mercado Pago
         try (OutputStream os = con.getOutputStream()) {

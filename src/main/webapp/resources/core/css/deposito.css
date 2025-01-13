@@ -80,8 +80,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    width: 100%;
-    max-width: 300px;
+    width: 300px;
     margin: auto;
     padding: 50px;
 }
@@ -136,4 +135,50 @@
 
 .ayuda-txt {
     color: var(--clr);
+}
+
+@media screen and (max-width: 1023px) {
+    .form-deposito {
+        row-gap: 30px;
+    }
+
+    .titulo-depositar {
+        font-size: 3rem;
+        margin: 50px 0 15px;
+    }
+
+    .input-depositar, .boton-depositar{
+        padding: 20px;
+        font-size: 2rem;
+    }
+
+    .contenedor-principal-deposito {
+        width: 80%;
+    }
+
+    #login-form-2 {
+        width: 80%;
+        gap: 2rem;
+    }
+
+    label {
+        font-size: 2rem;
+    }
+
+    .input-email-2, .input-contrasenia-2 {
+        font-size: 1.8rem;
+        padding: 2rem 1.75rem;
+    }
+
+    .ayuda-txt {
+        font-size: 1.8rem;
+    }
+
+    .span {
+        font-size: 1.8rem;
+    }
+
+    .input-span {
+        margin-top: 50px;
+    }
 }

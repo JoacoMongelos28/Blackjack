@@ -101,7 +101,7 @@ body {
 
 .menu-usuario {
     display: none;
-    position: absolute;
+    position: fixed;
     right: 200px;
     background-color: #ffffff;
     padding: 10px;
@@ -314,7 +314,7 @@ body {
 }
 
 .contenedor-principal-login {
-    margin: 20% auto;
+    margin: 15% auto;
 }
 
 .contenedor-login {

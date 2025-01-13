@@ -205,6 +205,10 @@ body {
     color: #212121;
 }
 
+.contenedor-principal-juegos {
+    margin-bottom: 100px;
+}
+
 .contenedor-juegos {
     display: flex;
     justify-content: center;
@@ -305,13 +309,12 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
 }
 
 .contenedor-principal-login {
-    margin: 15% auto;
+    margin: 20% auto;
 }
 
 .contenedor-login {
@@ -440,7 +443,7 @@ body {
 
 .contenedor-principal-saldo {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 20% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
@@ -482,99 +485,213 @@ body {
     cursor: pointer;
 }
 
-.contenedor-footer {
-    display: flex;
-    background-color: rgba(17, 24, 39, 1);
-    height: 150px;
-    margin-top: 100px;
-    justify-content: center;
-}
-
 ul {
     list-style: none;
 }
 
-.contenedor-redes-sociales {
+.footer {
+    background-color: rgba(17, 24, 39, 1);
+}
+
+.contenedor-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    padding: 1rem;
+}
+
+.joaquin {
+    color: rgb(210 84 117);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.mongelos {
+    color: rgb(80 89 223);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.contenedor-principal-redes {
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
-.contenedor-redes-sociales .red-social {
-    margin: 0 10px;
-    position: relative;
-}
-
-.contenedor-redes-sociales .red-social .tooltip {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 5px;
-    opacity: 0;
-    visibility: hidden;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.contenedor-redes-sociales .red-social:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: -50px;
-}
-
-.contenedor-redes-sociales .red-social a {
-    position: relative;
-    overflow: hidden;
+.contenedor-redes {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    color: #4d4d4d;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
+    gap: 25px;
 }
 
-.contenedor-redes-sociales .red-social a:hover {
-    box-shadow: 3px 2px 45px 0 rgb(0 0 0 / 12%);
+.linkedin, .github, .email {
+    text-decoration: none;
+    color: inherit;
+    font-size: 2rem;
 }
 
-.contenedor-redes-sociales .red-social a svg {
-    position: relative;
-    z-index: 1;
-    width: 30px;
-    height: 30px;
-}
+@media screen and (max-width: 1023px) {
+    .categoria {
+        font-size: 2rem;
+        padding: 30px;
+    }
 
-.contenedor-redes-sociales .red-social a:hover {
-    color: white;
-}
+    .filtro-blackjack {
+        display: none;
+    }
 
-.contenedor-redes-sociales .red-social a .filled {
-    position: absolute;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: #000;
-    transition: all 0.3s ease-in-out;
-}
+    .filtro-ruleta {
+        display: none;
+    }
 
-.contenedor-redes-sociales .red-social a:hover .filled {
-    height: 100%;
-}
+    .filtro-baccarat {
+        display: none;
+    }
 
-.contenedor-redes-sociales .red-social a[data-social="linkedin"] .filled,
-.contenedor-redes-sociales .red-social a[data-social="linkedin"] ~ .tooltip {
-    background-color: #0274b3;
-}
+    .filtro-slots {
+        display: none;
+    }
 
-.contenedor-redes-sociales .red-social a[data-social="github"] .filled,
-.contenedor-redes-sociales .red-social a[data-social="github"] ~ .tooltip {
-    background-color: #24262a;
+    .logo-casino {
+        display: none;
+    }
+
+    .contenedor-header {
+        padding: 25px 90px;
+    }
+
+    .contenedor-juegos {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .contenedor-principal-juegos {
+        text-align: center;
+    }
+
+    .contenedor-buscador {
+        padding: 110px 0 30px 0;
+    }
+
+    .texto-casino {
+        font-size: 2.2rem;
+    }
+
+    .boton-iniciar-sesion {
+        font-size: 1.8rem;
+    }
+
+    .input-buscador {
+        height: 80px;
+        font-size: 2rem;
+        padding-left: 3.5rem;
+    }
+
+    .portada-baccarat, .portada-blackjack, .portada-blackjack-2, .portada-ruleta, .portada-sugar-rush {
+        width: 600px;
+        height: 600px;
+    }
+
+    .texto-juego {
+        top: 80%;
+        font-size: 2.5rem;
+    }
+
+    .icono-buscar {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .contenedor-juegos {
+        margin-top: 100px;
+    }
+
+    .contenedor-footer {
+        display: block;
+        padding: 20px;
+        margin: auto;
+    }
+
+    .contenedor-principal-redes {
+        margin-top: 10px;
+        display: block;
+        text-align: center;
+    }
+
+    .contenedor-redes {
+        display: block;
+    }
+
+    .contenedor-full-nombre {
+        text-align: center;
+    }
+
+    .contenedor-principal-login {
+        margin: 30% auto;
+    }
+
+    .contenedor-principal-saldo {
+        margin: 30% auto;
+    }
+
+    .joaquin, .mongelos {
+        font-size: 3rem;
+    }
+
+    .linkedin, .github, .email {
+        font-size: 3rem;
+        padding: 20px;
+    }
+
+    .texto-olvidar-contrasenia, .texto-registrarse {
+        font-size: 2rem;
+    }
+
+    .icono-cerrar {
+        font-size: 3rem;
+    }
+
+    .titulo-iniciar-sesion {
+        margin-bottom: 60px;
+        font-size: 3rem;
+        padding: 0 50px;
+    }
+
+    .input-email, .input-contrasenia {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .boton-ingresar {
+        padding: 15px;
+        font-size: 2rem;
+    }
+
+    .contenedor-login {
+        width: 560px;
+        height: 500px;
+    }
+
+    .contenedor-opciones {
+        bottom: 25px;
+    }
+
+    .saldo, .depositar-txt {
+        font-size: 2rem;
+    }
+
+    .icono-usuario {
+        font-size: 4.8rem;
+    }
+
+    .menu-usuario {
+        top: 140px;
+        right: 90px;
+    }
+
+    .menu-usuario-a {
+        font-size: 2rem;
+        padding: 20px;
+    }
 }

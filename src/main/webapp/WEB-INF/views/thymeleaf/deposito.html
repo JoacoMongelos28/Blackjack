@@ -44,7 +44,7 @@
     <section th:if="${estaLogueado}" class="contenedor-form">
         <article class="contenedor-principal-deposito">
             <h1 class="titulo-depositar">Depositar</h1>
-            <form th:action="@{/depositar}" method="POST" class="form-deposito">
+            <form th:action="@{/procesar-deposito}" method="POST" class="form-deposito">
                 <label for="saldo"></label>
                 <input class="input-depositar" type="number" id="saldo" name="saldo" placeholder="Monto a depositar"
                        required>

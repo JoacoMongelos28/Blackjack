@@ -76,7 +76,7 @@ input:focus {
     background-color: #ebeded;
     width: 80%;
     margin: auto;
-    height: 100vh;
+    padding-bottom: 60px;
 }
 
 .contenedor-form-registro {
@@ -89,4 +89,47 @@ input:focus {
     justify-content: center;
     color: #000e7a;
     font-weight: 600;
+}
+
+.contenedor-principal-redes {
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-redes {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.linkedin, .github, .email {
+    text-decoration: none;
+    color: inherit;
+    font-size: 2rem;
+}
+
+@media screen and (max-width: 1023px) {
+    .contenedor-nav {
+        padding: 30px 0;
+    }
+
+    .contenedor-principal-form-registro {
+        height: auto;
+    }
+
+    .contenedor-form-registro {
+        width: 80%;
+    }
+
+    .contenedor-principal-form {
+        padding-bottom: 40px;
+    }
+
+    .footer {
+        margin-top: 80px;
+    }
+
+    .joaquin, .mongelos {
+        font-size: 20px;
+    }
 }

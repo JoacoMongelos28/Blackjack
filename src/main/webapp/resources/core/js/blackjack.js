@@ -27,10 +27,50 @@ let seRepartioLasCartas;
 let primeraManoValor;
 let segundaManoValor;
 let huboDobleAzJugador;
+let cartasRepartidas = [];
+let data = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-    mostrarBotonesCuandoElJugadorNoEstaEnPartida();
-    crearBotonesConValoresDeApuestaPredeterminados();
+document.addEventListener('DOMContentLoaded', async () => {
+    mazoDeCartas = await obtenerCartas();
+    if (await cargarPartida()) {
+        eliminarBotonesConValores();
+        crearDivsDeLosValoresDelJugadorYCrupier();
+        const manoCrupier = document.getElementById("cartas-crupier")
+        const manoJugador = document.getElementById("cartas-jugador")
+
+        let valorCrupier = document.createElement('div');
+        valorCrupier.id = 'valor-crupier';
+        manoCrupier.appendChild(valorCrupier)
+
+        let valorJugador = document.createElement('div');
+        valorJugador.id = 'valor-jugador';
+        manoJugador.appendChild(valorJugador)
+
+        verificarBlackjack();
+        mostrarBotonDividirSiAmbasCartasTienenElMismoValor();
+
+        valorCrupier.innerText = `${sumaCrupier}`;
+
+        if (huboBlackjack) {
+            valorJugador.innerText = `BJ`;
+        } else if (huboDobleAzJugador) {
+            sumaJugador = 2;
+            valorJugador.innerText = `${sumaJugador}`;
+        } else if (huboAzJugador) {
+            valorJugador.innerText = `${sumaJugador}/${sumaJugador - 10}`;
+        } else {
+            valorJugador.innerText = `${sumaJugador}`;
+        }
+
+        eliminarBotonesCuandoElJugadorEstaEnJuego();
+
+        if (!huboBlackjack) {
+            crearBotonesPedirPlantarseYDoblarApuesta();
+        }
+    } else {
+        mostrarBotonesCuandoElJugadorNoEstaEnPartida();
+        crearBotonesConValoresDeApuestaPredeterminados();
+    }
 });
 
 function mostrarBotonesCuandoElJugadorNoEstaEnPartida() {
@@ -126,7 +166,6 @@ async function repartirCartas() {
 
     actualizarSaldoDelJugador();
     eliminarBotonesConValores();
-    mazoDeCartas = await obtenerCartas();
     crearDivsDeLosValoresDelJugadorYCrupier();
 
     const cartasCrupier = document.getElementById('cartas-crupier');
@@ -155,11 +194,14 @@ async function repartirCartas() {
             if (cartaRepartida.esCartaOculta) {
                 carta.classList.add('carta-oculta');
                 cartaOcultaDelCrupier = cartaAleatoriaObtenida;
+                cartasRepartidas.push(cartaOcultaDelCrupier)
             } else {
                 const cartaAMostrar = document.createElement('img');
                 cartaAMostrar.src = `css/imagenes/${cartaAleatoriaObtenida.numero} de ${obtenerElPaloDeLaCarta(cartaAleatoriaObtenida.palo)}.png`;
                 cartaAMostrar.alt = `${cartaAleatoriaObtenida.numero} de ${obtenerElPaloDeLaCarta(cartaAleatoriaObtenida.palo)}`;
                 carta.appendChild(cartaAMostrar);
+
+                cartasRepartidas.push(cartaAleatoriaObtenida);
 
                 if (cartaRepartida.destino === cartasCrupier) {
                     sumaCrupier += obtenerElValorDeLaCarta(cartaAleatoriaObtenida.numero);
@@ -182,6 +224,10 @@ async function repartirCartas() {
     setTimeout(() => {
         cartasJugador.appendChild(valorJugador);
         cartasCrupier.appendChild(valorCrupier);
+        console.log(cartasRepartidas)
+        guardarPartida();
+        cartasRepartidas = []
+        console.log(cartasRepartidas)
         verificarBlackjack();
         mostrarBotonDividirSiAmbasCartasTienenElMismoValor();
 
@@ -478,6 +524,7 @@ function crupierJuega() {
         if (sumaCrupier < 17) {
             const carta = obtenerCartaAleatoriaDelMazo(mazoDeCartas);
             agregarNuevaCartaAlCrupier(carta);
+            let valorCrupier = document.getElementById('valor-crupier');
 
             if (carta.numero === 'A') {
                 sumaCrupier += obtenerElValorDeLaCarta(carta.numero);
@@ -563,7 +610,6 @@ function mostrarLaCartaOcultaDelCrupier() {
     const cartaOcultaDiv = document.querySelector('.carta-oculta');
     if (cartaOcultaDiv && cartaOcultaDelCrupier) {
         cartaOcultaDiv.classList.remove('carta-oculta');
-
         const img = document.createElement('img');
         img.src = `css/imagenes/${cartaOcultaDelCrupier.numero} de ${obtenerElPaloDeLaCarta(cartaOcultaDelCrupier.palo)}.png`;
         img.alt = `${cartaOcultaDelCrupier.numero} de ${obtenerElPaloDeLaCarta(cartaOcultaDelCrupier.palo)}`;
@@ -604,6 +650,8 @@ function verificarCartasDelCrupier() {
 }
 
 function verificarResultado() {
+
+    borrarPartida();
 
     if (seDividio) {
         if (huboBlackjackCrupier) {
@@ -781,8 +829,6 @@ function limpiarMesa() {
     cartasJugador.innerHTML = '';
     primeraMano.innerHTML = '';
     segundaMano.innerHTML = '';
-    primeraManoValor.innerHTML = '';
-    segundaManoValor.innerHTML = '';
     valorCrupier.innerHTML = '';
     valorJugador.innerHTML = '';
 }
@@ -1051,4 +1097,146 @@ function mostrarPopup(mensaje) {
     setTimeout(() => {
         popup.remove();
     }, 1000);
+}
+
+async function guardarPartida() {
+    let idJugador = document.getElementById("idJugador").value;
+    let apuestaActual = apuesta
+    let numeroDeLaCartaDelCrupier = cartasRepartidas[1].numero;
+    let paloDeLaCartaDelCrupier = cartasRepartidas[1].palo;
+    let numeroDeLaCartaOcultaDelCrupier = cartasRepartidas[3].numero;
+    let paloDeLaCartaOcultaDelCrupier = cartasRepartidas[3].palo;
+    let numeroDeLaPrimeraCartaDelJugador = cartasRepartidas[0].numero;
+    let paloDeLaPrimeraCartaDelJugador = cartasRepartidas[0].palo
+    let numeroDeLaSegundaCartaDelJugador = cartasRepartidas[2].numero
+    let paloDeLaSegundaCartaDelJugador = cartasRepartidas[2].palo
+
+    data = {
+        jugador: {
+            idJugador: idJugador
+        },
+        numeroDeLaCartaDelCrupier: numeroDeLaCartaDelCrupier,
+        paloDeLaCartaDelCrupier: paloDeLaCartaDelCrupier,
+        numeroDeLaCartaOcultaDelCrupier: numeroDeLaCartaOcultaDelCrupier,
+        paloDeLaCartaOcultaDelCrupier: paloDeLaCartaOcultaDelCrupier,
+        numeroDeLaPrimeraCartaDelJugador: numeroDeLaPrimeraCartaDelJugador,
+        paloDeLaPrimeraCartaDelJugador: paloDeLaPrimeraCartaDelJugador,
+        numeroDeLaSegundaCartaDelJugador: numeroDeLaSegundaCartaDelJugador,
+        paloDeLaSegundaCartaDelJugador: paloDeLaSegundaCartaDelJugador,
+        apuesta: apuestaActual
+    };
+
+    try {
+        const response = await fetch('/partida/guardar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
+}
+
+async function cargarPartida() {
+    try {
+        const response = await fetch('/partida/cargar', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.existe) {
+                /*cartasRepartidas.push({
+                    numero: data.partida.numeroDeLaPrimeraCartaDelJugador,
+                    palo: data.partida.paloDeLaPrimeraCartaDelJugador
+                }, {
+                    numero: data.partida.numeroDeLaCartaDelCrupier,
+                    palo: data.partida.paloDeLaCartaDelCrupier
+                }, {
+                    numero: data.partida.numeroDeLaSegundaCartaDelJugador,
+                    palo: data.partida.paloDeLaSegundaCartaDelJugador
+                }, {
+                    numero: data.partida.numeroDeLaCartaOcultaDelCrupier,
+                    palo: data.partida.paloDeLaCartaOcultaDelCrupier
+                });*/
+
+                const manoCrupier = document.getElementById("cartas-crupier")
+                const cartaCrupier = document.createElement('div');
+                cartaCrupier.className = 'carta mostrar';
+
+                const cartaOculta = document.createElement('div');
+                cartaOculta.className = 'carta carta-oculta mostrar';
+                cartaOcultaDelCrupier = {
+                    numero: data.partida.numeroDeLaCartaOcultaDelCrupier,
+                    palo: data.partida.paloDeLaCartaOcultaDelCrupier
+                };
+
+                const cartaAMostrar = document.createElement('img');
+                cartaAMostrar.src = `css/imagenes/${data.partida.numeroDeLaCartaDelCrupier} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaCartaDelCrupier)}.png`;
+                cartaAMostrar.alt = `${data.partida.numeroDeLaCartaDelCrupier} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaCartaDelCrupier)}`;
+                cartaCrupier.appendChild(cartaAMostrar);
+                manoCrupier.appendChild(cartaCrupier)
+                manoCrupier.appendChild(cartaOculta)
+
+                const manoJugador = document.getElementById("cartas-jugador")
+                const primeraCartaDelJugador = document.createElement('div');
+                primeraCartaDelJugador.className = 'carta mostrar';
+                const segundaCartaDelJugador = document.createElement('div');
+                segundaCartaDelJugador.className = 'carta mostrar';
+
+                const primeraCartaAMostrar = document.createElement('img');
+                primeraCartaAMostrar.src = `css/imagenes/${data.partida.numeroDeLaPrimeraCartaDelJugador} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaPrimeraCartaDelJugador)}.png`;
+                primeraCartaAMostrar.alt = `${data.partida.numeroDeLaPrimeraCartaDelJugador} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaPrimeraCartaDelJugador)}`;
+                primeraCartaDelJugador.appendChild(primeraCartaAMostrar);
+                manoJugador.appendChild(primeraCartaDelJugador)
+
+                const segundaCartaAMostrar = document.createElement('img');
+                segundaCartaAMostrar.src = `css/imagenes/${data.partida.numeroDeLaSegundaCartaDelJugador} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaSegundaCartaDelJugador)}.png`;
+                segundaCartaAMostrar.alt = `${data.partida.numeroDeLaSegundaCartaDelJugador} de ${obtenerElPaloDeLaCarta(data.partida.paloDeLaSegundaCartaDelJugador)}`;
+                segundaCartaDelJugador.appendChild(segundaCartaAMostrar);
+                manoJugador.appendChild(segundaCartaDelJugador)
+
+                const totalApostado = document.getElementById('total-apostado');
+                totalApostado.innerText = data.partida.apuesta;
+
+                apuesta = data.partida.apuesta
+
+                sumaCrupier += obtenerElValorDeLaCarta(data.partida.numeroDeLaCartaDelCrupier);
+
+                sumaJugador += obtenerElValorDeLaCarta(data.partida.numeroDeLaPrimeraCartaDelJugador);
+                sumaJugador += obtenerElValorDeLaCarta(data.partida.numeroDeLaSegundaCartaDelJugador);
+
+                if (data.partida.numeroDeLaPrimeraCartaDelJugador === 'A' || data.partida.numeroDeLaSegundaCartaDelJugador === 'A') {
+                        huboAzJugador = true;
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            console.error('Error inesperado al cargar la partida.');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
+}
+
+async function borrarPartida () {
+    try {
+        const response = await fetch('/partida/borrar', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
 }

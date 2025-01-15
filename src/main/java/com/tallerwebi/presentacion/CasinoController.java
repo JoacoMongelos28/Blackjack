@@ -53,8 +53,19 @@ public class CasinoController {
     @RequestMapping("/mesa-blackjack")
     public ModelAndView mostrarMesaBlackjack(HttpSession session) {
         ModelMap model = new ModelMap();
+        Boolean estadoDelJugador = (Boolean) session.getAttribute("estaLogueado");
+
+        if (estadoDelJugador == null) {
+            estadoDelJugador = false;
+            session.setAttribute("estaLogueado", estadoDelJugador);
+            return new ModelAndView("redirect:/home");
+        }
+
+        Integer idJugador = (Integer) session.getAttribute("idJugador");
         Jugador jugadorActual = this.casinoServicio.obtenerJugadorPorId((Integer) session.getAttribute("idJugador"));
         Double saldoDelJugador = jugadorActual.getSaldo();
+
+        model.put("idJugador", idJugador);
         model.put("saldo", saldoDelJugador);
         model.put("estaLogueado", session.getAttribute("estaLogueado"));
         return new ModelAndView("mesa-blackjack", model);

@@ -18,7 +18,9 @@ Technologies:<br>
 > Prerequisites:<br>
 >• MYSQL<br>
 >• Java SDK 11<br>
->• Intellij IDEA (Optional)<br><br>
+>• Intellij IDEA (Optional)<br>
+
+<br>
 
 > [!IMPORTANT]
 > 1.	Clone Repository: git clone https://github.com/JoacoMongelos28/Blackjack.git
@@ -35,7 +37,9 @@ Technologies:<br>
 > 8.  If you want to deposit more balance, you must log in and pay using the following account<br>
 > User: TESTUSER2053005099<br>
 > Password: FC981613#be14#4f1f#<br>
-> Verification code: 810057<br><br>
+> Verification code: 810057<br>
+
+<br>
 
 > [!TIP]
 > If the Blackjack page becomes misaligned, reduce the page zoom.

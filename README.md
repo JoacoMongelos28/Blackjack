@@ -10,9 +10,9 @@ Features:<br>•	Game Filter: Offers an interactive search tool to find related 
 Technologies:<br>
 •	Backend: Java<br>
 •	Database: MySQL<br>
-•	ORM: Hibernate | JPA<br>
+•	ORMs: Hibernate | JPA<br>
 •	API: Mercado Pago API<br>
-•	Frameworks: Spring Boot<br>
+•	Framework: Spring Boot<br>
 • Template Engine: Thymeleaf<br>
 •	Frontend: HTML5 | CSS3 | JavaScript<br>
 • Management and Automation Tool: Maven<br><br>

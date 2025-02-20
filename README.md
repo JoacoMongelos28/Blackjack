@@ -8,11 +8,14 @@ Features:<br>•	Game Filter: Offers an interactive search tool to find related 
 •	Bets and Balance: Enables placing and managing bets with a balance system stored in a database.<br><br>
 
 Technologies:<br>
-• Tools: Maven<br>
+•	Backend: Java<br>
+•	Database: MySQL<br>
+•	ORM: Hibernate | JPA<br>
 •	API: Mercado Pago API<br>
-•	Frameworks: Thymeleaf | Hibernate<br>
+•	Frameworks: Spring Boot<br>
+• Template Engine: Thymeleaf<br>
 •	Frontend: HTML5 | CSS3 | JavaScript<br>
-•	Backend: Spring MVC | Java | RESTful Controllers | MySQL | Javascript<br><br>
+• Management and Automation Tool: Maven<br><br>
 
 > [!NOTE]
 > Prerequisites:<br>

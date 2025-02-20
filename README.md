@@ -37,7 +37,7 @@ Technologies:<br>
 > 5.	Start the project with Jetty:Run: Go to the "m" of Maven in the right bar --> Open Spring Web MVC --> Plugins --> Jetty --> Jetty:Run
 > 6.	Open Web at http://localhost:8080/home
 > 7.  Sign Up and Play
-> 8.  If you want to deposit more balance, you must log in and pay using the following account<br>
+> 8.  If you want to deposit more balance, you must log in and pay using the following Mercado Pago account<br>
 > User: TESTUSER2053005099<br>
 > Password: FC981613#be14#4f1f#<br>
 > Verification code: 810057<br>

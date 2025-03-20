@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.MercadoPago;
 
-import com.mercadopago.MercadoPagoConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,17 +14,18 @@ import org.json.JSONObject;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class MercadoPagoServicio implements IMercadoPagoServicio{
 
-    private final String API_URL = "https://api.mercadopago.com/checkout/preferences";
-    private final String ACCESS_TOKEN = "TEST-2591301662628250-112013-bef180cd58f4d64d50d056542d3f0d85-151386142";
+    @Value("${mercadopago.api.key}")
+    private String apiKey;
 
-    @Override
+    @Value("${mercadopago.api.url}")
+    private String apiUrl;
+
     @Transactional
     public String pagarDeposito(Double saldo) throws IOException {
-        String apiKey = "APP_USR-705806417372706-011002-1fe4d4af65b4f79f238b03a2c2755cf6-2201985025";
-
-        URL url = new URL("https://api.mercadopago.com/checkout/preferences");
+        URL url = new URL(apiUrl);
 
         // Configura la conexión HTTP
         HttpURLConnection con = (HttpURLConnection) url.openConnection();

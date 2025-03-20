@@ -27,6 +27,11 @@ public class CasinoController {
         this.casinoServicio = casinoServicio;
     }
 
+    @RequestMapping("/")
+    public ModelAndView index() {
+        return new ModelAndView("redirect:/home");
+    }
+
     @RequestMapping("/home")
     public ModelAndView mostrarHome(HttpSession session) {
         String nombreVista = "home";
